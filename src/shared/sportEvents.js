@@ -9,6 +9,15 @@ export const SPORTEVENTS = [
     city: "Ladenburg",
     postalCode: "68526",
     countryCode: "DE",
+    createdBy: "",
+    maintainedBy: [
+      {
+        userId: ""
+      },
+      {
+        userId: ""
+      }
+    ],
     races: [
       {
         name: "Fitnesstriathlon",
@@ -65,6 +74,15 @@ export const SPORTEVENTS = [
     city: "Hattersheim",
     postalCode: "65000",
     countryCode: "CH",
+    createdBy: "",
+    maintainedBy: [
+      {
+        userId: ""
+      },
+      {
+        userId: ""
+      }
+    ],
     races: [
       {
         name: "Staufen Bike kurz",
