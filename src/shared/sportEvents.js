@@ -12,11 +12,11 @@ export const SPORTEVENTS = [
     createdBy: "",
     maintainedBy: [
       {
-        userId: ""
+        userId: "",
       },
       {
-        userId: ""
-      }
+        userId: "",
+      },
     ],
     races: [
       {
@@ -68,7 +68,7 @@ export const SPORTEVENTS = [
     name: "Staufen Bike",
     host: "RSV Hattersheim",
     logo: "image src",
-    website: "#",
+    website: "https://www.rc-hattersheim.de/de/home/",
     start: "30.03.2021",
     end: "",
     city: "Hattersheim",
@@ -77,11 +77,11 @@ export const SPORTEVENTS = [
     createdBy: "",
     maintainedBy: [
       {
-        userId: ""
+        userId: "",
       },
       {
-        userId: ""
-      }
+        userId: "",
+      },
     ],
     races: [
       {
