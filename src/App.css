@@ -1,9 +1,10 @@
 .card {
-  color: floralwhite;
+  color: hsl(39, 21%, 82%);
+  background-color: black;
   border: none;
   /* cursor: pointer; */
 }
 
-.card[onclick] {
+.clickable {
   cursor: pointer;
 }

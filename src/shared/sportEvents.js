@@ -64,7 +64,7 @@ export const SPORTEVENTS = [
     end: "",
     city: "Hattersheim",
     postalCode: "65000",
-    countryCode: "DE",
+    countryCode: "CH",
     races: [
       {
         name: "Staufen Bike kurz",

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, CardDeck, CardText, CardBody, CardTitle } from "reactstrap";
+import { Card, CardDeck, CardColumns, CardText, CardBody, CardTitle } from "reactstrap";
 
 
 
@@ -41,8 +41,8 @@ class Races extends Component {
     render() {
         const race = this.props.sportEvents.map((sportEvent) => {
           return (
-            <div className="col-12 col-md-4 m-1 shadow-sm">
-              <Card
+            <div className="col-12 col-md-4 m-1">
+              <Card className="clickable"
                 key={sportEvent.id}
                 dark
                 color="dark"
@@ -50,10 +50,16 @@ class Races extends Component {
               >
                 <CardBody>
                   <CardTitle>
-                    <h5 class="card-title">{sportEvent.name}</h5> {sportEvent.countryCode}
+                    <div className="row col-12">
+                      <h5 class="card-title col-9">{sportEvent.name}</h5>
+                      <div className="offset--1 col-2">
+                        <img src={`assets/images/country-flags/svg/${sportEvent.countryCode}.svg`} alt={sportEvent.countryCode} width="50" />
+                      </div>
+                    </div>
                     <h6 class="card-subtitle mb-2 text-muted">
                       {sportEvent.host}
                     </h6>
+                    {/* {this.props.countries.filter((country) => country.countryCode === sportEvent.countryCode)[0].countryNameEn} */}
                   </CardTitle>
                   <CardText>                   
                     <ul className="list-unstyled">
@@ -85,7 +91,7 @@ class Races extends Component {
                     {race}
                 </div> {/* / .row */}
                 <div className="row">
-                    <div className="col-12 col-md-4 m-1 shadow-sm">
+                    <div className="col-12 col-md-4 m-1">
                         {this.renderSportEvent(this.state.selectedSportEvent)}
                     </div>
                 </div>
