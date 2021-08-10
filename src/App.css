@@ -1,0 +1,9 @@
+.card {
+  color: floralwhite;
+  border: none;
+  /* cursor: pointer; */
+}
+
+.card[onclick] {
+  cursor: pointer;
+}

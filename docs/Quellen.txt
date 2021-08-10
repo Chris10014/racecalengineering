@@ -1,0 +1,2 @@
+Ländercodes:
+https://www.html-code-generator.com/mysql/country-name-table
