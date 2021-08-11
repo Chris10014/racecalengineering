@@ -3,8 +3,8 @@ export const SPORTEVENTS = [
     name: "Ladenburger Triathlonfestival",
     host: "TV Ladenburg",
     logo: "",
-    website: "https://roemerman.de/",
-    start: "17.07.2021",
+    homepage: "https://roemerman.de/",
+    start: "17.07.2021",   
     end: "19.07.2021",
     city: "Ladenburg",
     postalCode: "68526",
@@ -23,7 +23,7 @@ export const SPORTEVENTS = [
         name: "Fitnesstriathlon",
         sport: "Triathlon",
         endurance: "Sprint distance",
-        start: "17.07.2012",
+        start: "17.07.2021",
         competition: true,
         courses: [
           {

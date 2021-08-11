@@ -6,7 +6,7 @@ class Header extends Component {
     render() {
         return (
             <div className="container">
-                <Navbar dark className="sticky-top" color="dark">
+                <Navbar className="sticky-top" dark color="dark">
                     <div className="container">
                         <NavbarBrand href="/">Big Points</NavbarBrand>
                     </div> {/* / .container */}

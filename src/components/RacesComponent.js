@@ -1,69 +1,40 @@
 import React, { Component } from "react";
 import { Card, CardHeader, CardText, CardBody, CardTitle } from "reactstrap";
+// get our fontawesome imports
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import SportEventDetail from "./SportEventDetailComponent";
 
 
 
 class Races extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedSportEvent: null
+    };
+  }
+   
+  onSportEventSelect(sportEventId) {
+    this.setState({selectedSportEvent: sportEventId});
+}
+    
 
-        this.state = {
-            selectedSportEvent: null            
-        }
-    }
-
-    onSportEventSelect(sportEvent) {
-        this.setState({selectedSportEvent: sportEvent});
-    }
-
-    renderSportEvent(sportEvent) {
-        if (sportEvent != null) {
-            return (
-              <Card dark color="dark">
-                <CardBody>
-                  <CardTitle>
-                    <h5 class="card-title">{sportEvent.name}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">
-                      {sportEvent.host}
-                    </h6>
-                  </CardTitle>
-                  <CardText>Mehr Details</CardText>
-                  <a href="#" class="card-link">
-                    Card link
-                  </a>
-                  <a href="#" class="card-link">
-                    Offizielle Homepage
-                  </a>
-                </CardBody>
-              </Card>
-            );
-           
-        } else {
-            return null;
-        }
-    }
-// {'item.designation ? (
-//                 <CardSubtitle>{item.designation}</CardSubtitle>
-//               ) : null}'
     render() {
         const race = this.props.sportEvents.map((sportEvent) => {
           return (
             <div className="col-12 col-md-4 m-1">
-              <Card key={sportEvent.id} dark color="dark">
-                <CardHeader>
-                  <p><strong>
-                    {sportEvent.start}
-                    {sportEvent.end ? (<span> - {sportEvent.end}</span>) : null}{" "} {/* renders only if(sportEvent.end != null) */}
-                  </strong>                    
-                  </p>
-                </CardHeader>
+              <Card key={sportEvent.id} dark color="dark">   
                 <CardBody>
                   <div className="clickable" onClick={() => this.onSportEventSelect(sportEvent)}>
                     <CardTitle>
+                    <p>
+                    {sportEvent.start}
+                    {sportEvent.end ? (<span> - {sportEvent.end}</span>) : null}{" "} {/* renders only if(sportEvent.end != null) */}               
+                  </p>
                       <div className="row col-12">
                         <h5 class="card-title col-9">{sportEvent.name}</h5>
-                        <div className="col-2">
-                          <img src={`assets/images/country-flags/svg/${sportEvent.countryCode}.svg`} alt={sportEvent.countryCode} width="50" />
+                        <div className="col-3">
+                          <img src={`assets/images/country-flags/svg/${sportEvent.countryCode}.svg`} alt={sportEvent.countryCode} max-width="100%" />
                         </div>
                       </div>
                       <h6 class="card-subtitle mb-2 text-muted">
@@ -71,7 +42,9 @@ class Races extends Component {
                       </h6>
                       {/* {this.props.countries.filter((country) => country.countryCode === sportEvent.countryCode)[0].countryNameEn} */}
                     </CardTitle>
-                    <CardText className="text-end">
+                    <hr />
+                    <CardText>
+                      <p>Wettbewerbe</p>                      
                       <ul className="list-unstyled">
                         {sportEvent.races.map((race) => {
                           return (
@@ -84,8 +57,8 @@ class Races extends Component {
                     </CardText>
                   </div>
 
-                  <a href={sportEvent.website} target="_blank" class="card-link" rel="noreferrer">
-                    <span className="fas fa-globe"></span> Website
+                  <a href={sportEvent.homepage} target="_blank" className="card-link text-decoration-none" rel="noreferrer">
+                  <FontAwesomeIcon icon="globe" /> Homepage
                   </a>
                 </CardBody>
               </Card>
@@ -100,8 +73,9 @@ class Races extends Component {
               {race}
             </div>
               <div className="row">
-                <div className="col-12 col-md-4 m-1">
-                  {this.renderSportEvent(this.state.selectedSportEvent)}
+                <div className="">
+                  <SportEventDetail selectedSportEvent={this.state.selectedSportEvent} />
+                  {/* {this.renderSportEvent(this.props.selectedSportEvent)} */}
                 </div>
               </div>
           </div> 

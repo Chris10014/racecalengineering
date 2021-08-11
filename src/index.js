@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
-import "font-awesome/css/font-awesome.css";
+// import "font-awesome/css/font-awesome.css";
+// get our fontawesome imports
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';

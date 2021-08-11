@@ -1,30 +1,23 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
+import { library } from '@fortawesome/fontawesome-svg-core';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGlobe} from '@fortawesome/free-solid-svg-icons';
 import './App.css';
 import Header from "./components/HeaderComponent";
-import Races from "./components/RacesComponent";
-import { SPORTEVENTS } from "./shared/sportEvents";
-import { COUNTRIES } from "./shared/countries";
+import Main from "./components/MainComponent";
+
+library.add(faGlobe)
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      sportEvents: SPORTEVENTS,
-      countries: COUNTRIES
-    };
-  }
 
   render() {
     return (
       <div>      
-        <Header />
-        <Races sportEvents={this.state.sportEvents} countries={this.state.countries} />   
+        <Main />
       </div> /* / .App */
     );
-  }
-  
+  }  
 }
 
 export default App;
