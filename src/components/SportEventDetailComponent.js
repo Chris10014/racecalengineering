@@ -34,13 +34,11 @@ class SportEventDetail extends Component {
     }
 
     render() {
-        if(this.props.selectedSportEvent != null) {
-            return(
-                
-                    <div className="row">
-                        {this.renderSportEvent(this.props.selectedSportEvent)}
-                    </div>
-                
+        if (this.props.selectedSportEvent != null) {
+            return (
+                <div className="row">
+                    {this.renderSportEvent(this.props.selectedSportEvent)}
+                </div>
             );
         } else {
             return null;
