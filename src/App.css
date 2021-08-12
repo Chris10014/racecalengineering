@@ -1,5 +1,5 @@
 .card {
-  color: hsl(39, 21%, 82%);
+  color: floralwhite;
   background-color: black;
   border: none;
   /* cursor: pointer; */
@@ -7,4 +7,17 @@
 
 .clickable {
   cursor: pointer;
+}
+
+.milky-background {
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 1%;
+}
+
+.sport-event-name {
+  color: rgb(0,0,0);  
+}
+
+.card-country-flag {
+  max-width: 64px;
 }

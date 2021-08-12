@@ -1,8 +1,9 @@
 export const SPORTEVENTS = [
   {
+    id: 0,
     name: "Ladenburger Triathlonfestival",
     host: "TV Ladenburg",
-    logo: "",
+    visual: "assets/images/event-visuals/ladenburger_triathlon_festival.jpg",
     homepage: "https://roemerman.de/",
     start: "17.07.2021",   
     end: "19.07.2021",
@@ -20,6 +21,7 @@ export const SPORTEVENTS = [
     ],
     races: [
       {
+        id: 0,
         name: "Fitnesstriathlon",
         sport: "Triathlon",
         endurance: "Sprint distance",
@@ -41,6 +43,7 @@ export const SPORTEVENTS = [
         ],
       },
       {
+        id: 1,
         name: "Römerman",
         sport: "Triathlon",
         endurance: "Short distance",
@@ -65,10 +68,11 @@ export const SPORTEVENTS = [
   },
 
   {
+    id: 1,
     name: "Staufen Bike",
     host: "RSV Hattersheim",
-    logo: "image src",
-    website: "https://www.rc-hattersheim.de/de/home/",
+    visual: "assets/images/event-visuals/staufen_bike.jpg",
+    homepage: "https://www.rc-hattersheim.de/de/home/",
     start: "30.03.2021",
     end: "",
     city: "Hattersheim",
@@ -85,6 +89,7 @@ export const SPORTEVENTS = [
     ],
     races: [
       {
+        id: 0,
         name: "Staufen Bike kurz",
         sport: "bike",
         endurance: "",
@@ -98,6 +103,7 @@ export const SPORTEVENTS = [
         ],
       },
       {
+        id: 1,
         name: "Staufen Bike mittel",
         sport: "bike",
         endurance: "",
@@ -111,6 +117,7 @@ export const SPORTEVENTS = [
         ],
       },
       {
+        id: 2,
         name: "Staufen Bike lang",
         sport: "bike",
         endurance: "",
