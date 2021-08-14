@@ -1,20 +1,63 @@
 import React, { Component } from "react";
-import { Navbar, NavbarBrand } from "reactstrap";
+import {
+  Nav,
+  Navbar,
+  NavbarBrand,
+  NavbarToggler,
+  Collapse,
+  NavItem
+} from "reactstrap";
+import { NavLink } from "react-router-dom";
 
 class Header extends Component {
+  constructor(props) {
+    super(props);
 
-    render() {
-        return (
-            <div className="container">
-                <Navbar className="sticky-top" dark color="dark">
-                    <div className="container">
-                        <NavbarBrand href="/">Big Points</NavbarBrand>
-                    </div> {/* / .container */}
-                </Navbar>
-            </div> /* / .container */
-            
-        );
-    }
+    this.toggleNav = this.toggleNav.bind(this);
+    this.state = {
+      isNavOpen: false,
+    };
+  }
+
+  toggleNav() {
+    this.setState({
+      isNavOpen: !this.state.isNavOpen,
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <Navbar dark color="dark" expand="md">
+          <div className="container">
+            <NavbarToggler onClick={this.toggleNav} />
+            <NavbarBrand className="mr-auto" href="/">
+              <img
+                src=""
+                height="30"
+                width="41"
+                alt="BigPoints"
+              />
+            </NavbarBrand>
+            <Collapse isOpen={this.state.isNavOpen} navbar>
+              <Nav navbar>
+                <NavItem>
+                  <NavLink className="nav-link" to="/home">
+                    Home
+                  </NavLink>
+                </NavItem>               
+                <NavItem>
+                  <NavLink className="nav-link" to="/races">
+                    Veranstaltungen
+                  </NavLink>
+                </NavItem>
+              </Nav>
+            </Collapse>
+          </div>
+        </Navbar>
+      </div>
+    );
+  }
 }
 
 export default Header;
