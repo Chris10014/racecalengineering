@@ -4,13 +4,6 @@ import { Card, CardHeader, CardText, CardBody, CardTitle } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class SportEventDetail extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-
-        };
-    }
 
     renderSportEvent(sportEvent) {
         return (
@@ -34,11 +27,13 @@ class SportEventDetail extends Component {
     }
 
     render() {
-        if (this.props.selectedSportEvent != null) {
+        if (this.props.sportEvent != null) {
             return (
+              <div className="container">
                 <div className="row">
-                    {this.renderSportEvent(this.props.selectedSportEvent)}
+                  {this.renderSportEvent(this.props.sportEvent)}
                 </div>
+              </div>
             );
         } else {
             return null;

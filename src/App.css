@@ -19,5 +19,10 @@
 }
 
 .card-country-flag {
-  max-width: 64px;
+  max-height: 20px;
+  text-align: right;
+}
+
+.card-link {
+  position:relative; /*this makes class .card-link work in cards with class .card-img-overlay */
 }
