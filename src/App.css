@@ -1,3 +1,11 @@
+body {
+  font-family: 'Noto Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Lato', sans-serif;
+}
+
 .card {
   color: floralwhite;
   background-color: black;
@@ -15,14 +23,15 @@
 }
 
 .sport-event-name {
-  color: rgb(0,0,0);  
-}
-
-.card-country-flag {
-  max-height: 20px;
-  text-align: right;
+  color: rgb(0,0,0); 
+  font-weight:bold; 
 }
 
 .card-link {
   position:relative; /*this makes class .card-link work in cards with class .card-img-overlay */
+}
+
+.card-body { /*helps that the card-link is pushed to the bottom by class mt-auto*/
+  display: flex;
+  flex-direction: column;
 }
