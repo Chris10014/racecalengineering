@@ -38,19 +38,25 @@ class SportEventDetail extends Component {
                               </CardTitle>
                             </CardImgOverlay>                                   
                             <CardText>                     
-                              <h6 className="mt-2 text-muted">{eventPart.sport}</h6>
-                              <p className="text-muted">{eventPart.endurance}</p>
+                              <h6 className="mt-2 text-muted">{this.props.sports.filter((sport) => sport.code.toLowerCase() === eventPart.sport.toLowerCase())[0].de}</h6>
+                              <p className="text-muted">{eventPart.endurance.de}</p>
                               <hr />
                               <ul className="list-unstyled">
                                 {eventPart.courses.map((course) => {
                                   return(
-                                    <li>{course.type}</li>
+                                    <li>
+                                      <span className="col-3">
+                                        {this.props.sports.filter((sport) => sport.code === course.sport)[0].de}
+                                      </span>
+                                      <span className="col-3 offset-1">
+                                         {course.distance} km
+                                      </span>
+                                      </li>
                                   );
                                 })}                      
                               </ul>                    
                             </CardText>
                           </div>{/** /.clickable */}                  
-                          <a className="mt-auto card-link text-decoration-none" href={this.props.sportEvent.homepage} target="_blank" rel="noreferrer"><FontAwesomeIcon icon="globe" /> Homepage</a>
                         </CardBody>
                       </Card>
                     </div>/** /key=sportEvent.id */

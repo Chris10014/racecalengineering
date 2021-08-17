@@ -4,6 +4,7 @@ import Races from "./RacesComponent";
 import SportEventDetail from './SportEventDetailComponent';
 import { SPORTEVENTS } from "../shared/sportEvents";
 import { COUNTRIES } from "../shared/countries";
+import { SPORTS } from "../shared/sports";
 
 class Main extends Component {
     constructor(probs) {
@@ -11,6 +12,7 @@ class Main extends Component {
         this.state = {
             sportEvents: SPORTEVENTS,
             countries: COUNTRIES,
+            sports: SPORTS,
             selectedSportEvent: null
         };
     }
@@ -26,7 +28,7 @@ class Main extends Component {
             <Header />
             <Races sportEvents={this.state.sportEvents} countries={this.state.countries}
               onClick={(sportEventId) => this.onSportEventSelect(sportEventId)} /> 
-            <SportEventDetail sportEvent={this.state.sportEvents.filter((sportEvent) => sportEvent.id === this.state.selectedSportEvent )[0]} />
+            <SportEventDetail sportEvent={this.state.sportEvents.filter((sportEvent) => sportEvent.id === this.state.selectedSportEvent)[0]} sports={this.state.sports} />
           </div> /* / .App */
         );
       }

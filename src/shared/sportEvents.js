@@ -5,7 +5,7 @@ export const SPORTEVENTS = [
     host: "TV Ladenburg",
     visual: "ladenburger_triathlon_festival.jpg",
     homepage: "https://roemerman.de/",
-    start: "17.07.2021",   
+    start: "17.07.2021",
     end: "19.07.2021",
     city: "Ladenburg",
     postalCode: "68526",
@@ -23,21 +23,25 @@ export const SPORTEVENTS = [
       {
         id: 0,
         name: "Fitnesstriathlon",
-        sport: "Triathlon",
-        endurance: "Sprint distance",
+        sport: "tri",
+        endurance: {
+          en: "Sprint distance",
+          de: "Sprint Distanz",
+        },
+
         start: "17.07.2021",
         competition: true,
         courses: [
           {
-            type: "swim",
+            sport: "swim",
             distance: "0,5",
           },
           {
-            type: "TT",
+            sport: "TT",
             distance: "20",
           },
           {
-            type: "run",
+            sport: "run",
             distance: "5",
           },
         ],
@@ -45,21 +49,24 @@ export const SPORTEVENTS = [
       {
         id: 1,
         name: "Römerman",
-        sport: "Triathlon",
-        endurance: "Short distance",
+        sport: "tri",
+        endurance: {
+          de: "Kurzdistanz (Olympisch)",
+          en: "Short distance (Olympic)",
+        },
         start: "17.07.2012",
         competition: true,
         courses: [
           {
-            type: "swim",
+            sport: "swim",
             distance: "1,8",
           },
           {
-            type: "TT",
+            sport: "TT",
             distance: "42",
           },
           {
-            type: "run",
+            sport: "run",
             distance: "10",
           },
         ],
@@ -92,12 +99,15 @@ export const SPORTEVENTS = [
         id: 0,
         name: "Staufen Bike kurz",
         sport: "bike",
-        endurance: "",
+        endurance: {
+          de: "kurz",
+          en: "short",
+        },
         start: "30.03.2021",
         competition: false,
         courses: [
           {
-            type: "MTB",
+            sport: "MTB",
             distance: "20",
           },
         ],
@@ -111,7 +121,7 @@ export const SPORTEVENTS = [
         competition: false,
         courses: [
           {
-            type: "MTB",
+            sport: "MTB",
             distance: "40",
           },
         ],
@@ -125,7 +135,7 @@ export const SPORTEVENTS = [
         competition: false,
         courses: [
           {
-            type: "MTB",
+            sport: "MTB",
             distance: "60",
           },
         ],
@@ -138,7 +148,7 @@ export const SPORTEVENTS = [
     host: "TV Ladenburg",
     visual: "ladenburger_triathlon_festival.jpg",
     homepage: "https://roemerman.de/",
-    start: "17.07.2021",   
+    start: "17.07.2021",
     end: "19.07.2021",
     city: "Ladenburg",
     postalCode: "68526",
@@ -156,21 +166,24 @@ export const SPORTEVENTS = [
       {
         id: 0,
         name: "Fitnesstriathlon",
-        sport: "Triathlon",
-        endurance: "Sprint distance",
+        sport: "Tri",
+        endurance: {
+          de: "Sprint Distanz",
+          en: "Sprint distance",
+        },
         start: "17.07.2021",
         competition: true,
         courses: [
           {
-            type: "swim",
+            sport: "swim",
             distance: "0,5",
           },
           {
-            type: "TT",
+            sport: "TT",
             distance: "20",
           },
           {
-            type: "run",
+            sport: "run",
             distance: "5",
           },
         ],
@@ -178,21 +191,24 @@ export const SPORTEVENTS = [
       {
         id: 1,
         name: "Römerman",
-        sport: "Triathlon",
-        endurance: "Short distance",
+        sport: "Tri",
+        endurance: {
+          de: "Kurzdistanz (Olympisch)",
+          en: "Short distance (Olympic)",
+        },
         start: "17.07.2012",
         competition: true,
         courses: [
           {
-            type: "swim",
+            sport: "swim",
             distance: "1,8",
           },
           {
-            type: "TT",
+            sport: "TT",
             distance: "42",
           },
           {
-            type: "run",
+            sport: "run",
             distance: "10",
           },
         ],
@@ -244,7 +260,7 @@ export const SPORTEVENTS = [
         competition: false,
         courses: [
           {
-            type: "MTB",
+            sport: "MTB",
             distance: "40",
           },
         ],
@@ -258,7 +274,7 @@ export const SPORTEVENTS = [
         competition: false,
         courses: [
           {
-            type: "MTB",
+            sport: "MTB",
             distance: "60",
           },
         ],
