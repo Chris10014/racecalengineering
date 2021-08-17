@@ -1,44 +1,81 @@
 import React, { Component } from 'react';
-import { Card, CardHeader, CardText, CardBody, CardTitle } from "reactstrap";
+import { Card, CardHeader, CardText, CardBody, CardTitle, CardImg, CardImgOverlay } from "reactstrap";
 // get our fontawesome imports
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class SportEventDetail extends Component {
-
-    renderSportEvent(sportEvent) {
-        return (
-            <div className="col-12 m-1">
-                <Card key={sportEvent.id} dark color="dark">
-                    <CardBody>
-                        <CardTitle>
-                            <p>
-                                {sportEvent.start} {sportEvent.end ? (<span> - {sportEvent.end}</span>) : null}{" "} {/* renders only if(sportEvent.end != null) */}
-                            </p>
-                            <h5 class="card-title">{sportEvent.name}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">
-                                {sportEvent.host}
-                            </h6>
-                        </CardTitle>
-                        <CardText>Mehr Details</CardText>
-                    </CardBody>
-                </Card>
-            </div>
-        );
+    constructor(props) {
+      super(props);
+      this.state = {
+       
+      };
     }
+  
+      render() {
+          if(this.props.sportEvent != null) {
+          const competition = this.props.sportEvent.races.map((eventPart) => {
+                 return (
+                    <div key={eventPart.id} className="col-12 col-md-6 mt-5">
+                      <Card className="h-100 text-white bg-dark">
+                        <CardBody>
+                          <div>
+                            <CardImg width="100%" src={"assets/images/event-visuals/" + (this.props.sportEvent.visual)} alt="" />
+                            <CardImgOverlay>
+                              <CardTitle>
+                                <div className="milky-background">
+                                  <h2>
+                                    <div className="row">
+                                      <span className="col-10">
+                                        {eventPart.start}
+                                      </span>
+                                      
+                                    </div>
+                                  </h2>
+                                  <h1>
+                                    {eventPart.name}
+                                  </h1>
+                                </div>{/** /.milky-background sport-event-name */}
+                              </CardTitle>
+                            </CardImgOverlay>                                   
+                            <CardText>                     
+                              <h6 className="mt-2 text-muted">{eventPart.sport}</h6>
+                              <p className="text-muted">{eventPart.endurance}</p>
+                              <hr />
+                              <ul className="list-unstyled">
+                                {eventPart.courses.map((course) => {
+                                  return(
+                                    <li>{course.type}</li>
+                                  );
+                                })}                      
+                              </ul>                    
+                            </CardText>
+                          </div>{/** /.clickable */}                  
+                          <a className="mt-auto card-link text-decoration-none" href={this.props.sportEvent.homepage} target="_blank" rel="noreferrer"><FontAwesomeIcon icon="globe" /> Homepage</a>
+                        </CardBody>
+                      </Card>
+                    </div>/** /key=sportEvent.id */
+                  );
 
-    render() {
-        if (this.props.sportEvent != null) {
-            return (
-              <div className="container">
+              
+            
+          } 
+          );
+  
+          return (
+            <div className="container">
+              <div className="row">
+                <h1>{this.props.sportEvent.name}</h1>
+                <hr />
                 <div className="row">
-                  {this.renderSportEvent(this.props.sportEvent)}
-                </div>
+                  {competition}
+                </div>              
               </div>
-            );
-        } else {
-            return null;
-        }
-    }
+            </div>
+          );
+      } else {
+          return null;
+      }
+  }
 }
-
+  
 export default SportEventDetail;
