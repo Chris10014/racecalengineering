@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Media } from "reactstrap";
 // get our fontawesome imports
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 
 
 
@@ -18,8 +19,10 @@ class Races extends Component {
           return (
             <div key={sportEvent.id} className="col-12 col-md-4">
               <Card className="h-100 text-white bg-dark">
+              
                 <CardBody>
-                  <div className="clickable" onClick={() => this.props.onClick(sportEvent.id)}>
+                  <div>
+                  <Link className="text-decoration-none text-white" to={`/races/${sportEvent.id}`}>
                     <CardImg width="100%" src={"assets/images/event-visuals/" + (sportEvent.visual)} alt="" />
                     <CardImgOverlay>
                       <CardTitle>
@@ -52,6 +55,8 @@ class Races extends Component {
                         })}                      
                       </ul>                    
                     </CardText>
+                </Link>
+
                   </div>{/** /.clickable */}                  
                   <a className="mt-auto card-link text-decoration-none" href={sportEvent.homepage} target="_blank" rel="noreferrer"><FontAwesomeIcon icon="globe" /> Homepage</a>
                 </CardBody>

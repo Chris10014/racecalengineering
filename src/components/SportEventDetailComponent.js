@@ -18,7 +18,7 @@ class SportEventDetail extends Component {
                     <div key={eventPart.id} className="col-12 col-md-6 mt-5">
                       <Card className="h-100 text-white bg-dark">
                         <CardBody>
-                          <div>
+                          
                             <CardImg width="100%" src={"assets/images/event-visuals/" + (this.props.sportEvent.visual)} alt="" />
                             <CardImgOverlay>
                               <CardTitle>
@@ -56,7 +56,7 @@ class SportEventDetail extends Component {
                                 })}                      
                               </ul>                    
                             </CardText>
-                          </div>{/** /.clickable */}                  
+                                        
                         </CardBody>
                       </Card>
                     </div>/** /key=sportEvent.id */
@@ -72,6 +72,7 @@ class SportEventDetail extends Component {
               <div className="row">
                 <h1>{this.props.sportEvent.name}</h1>
                 <hr />
+                <h2>{this.props.sportEvent.start} {this.props.sportEvent.end ? <span> - {this.props.sportEvent.end}</span> : null}</h2>
                 <div className="row">
                   {competition}
                 </div>              

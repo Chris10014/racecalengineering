@@ -246,7 +246,7 @@ export const SPORTEVENTS = [
         competition: false,
         courses: [
           {
-            type: "MTB",
+            sport: "MTB",
             distance: "20",
           },
         ],
