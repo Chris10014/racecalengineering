@@ -240,7 +240,7 @@ export const SPORTEVENTS = [
       {
         id: 0,
         name: "Staufen Bike kurz",
-        sport: "bike",
+        sport: "ctf",
         endurance: "",
         start: "30.03.2021",
         competition: false,
@@ -254,7 +254,7 @@ export const SPORTEVENTS = [
       {
         id: 1,
         name: "Staufen Bike mittel",
-        sport: "bike",
+        sport: "ctf",
         endurance: "",
         start: "30.03.2021",
         competition: false,
@@ -268,7 +268,7 @@ export const SPORTEVENTS = [
       {
         id: 2,
         name: "Staufen Bike lang",
-        sport: "bike",
+        sport: "ctf",
         endurance: "",
         start: "30.03.2021",
         competition: false,

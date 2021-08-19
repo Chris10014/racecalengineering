@@ -15,46 +15,39 @@ class SportEventDetail extends Component {
           if(this.props.sportEvent != null) {
           const competition = this.props.sportEvent.races.map((eventPart) => {
                  return (
-                    <div key={eventPart.id} className="col-12 col-md-6 mt-5">
+                    <div key={eventPart.id} className="col-12 mt-3">
                       <Card className="h-100 text-white bg-dark">
-                        <CardBody>
+                        <CardBody>                          
+                            {/* <CardImg width="100%" src={"assets/images/event-visuals/" + (this.props.sportEvent.visual)} alt="" /> */}
                           
-                            <CardImg width="100%" src={"assets/images/event-visuals/" + (this.props.sportEvent.visual)} alt="" />
-                            <CardImgOverlay>
-                              <CardTitle>
-                                <div className="milky-background">
-                                  <h2>
-                                    <div className="row">
-                                      <span className="col-10">
-                                        {eventPart.start}
-                                      </span>
-                                      
-                                    </div>
-                                  </h2>
+                              <CardTitle>                                  
                                   <h1>
                                     {eventPart.name}
                                   </h1>
-                                </div>{/** /.milky-background sport-event-name */}
-                              </CardTitle>
-                            </CardImgOverlay>                                   
+                                  <h6>
+                                    <div className="row">
+                                      <span className="col-10">
+                                        {this.props.sportEvent.end ? eventPart.start : null}
+                                      </span>                                      
+                                    </div>
+                                  </h6>                               
+                              </CardTitle>                                                               
                             <CardText>                     
-                              <h6 className="mt-2 text-muted">{this.props.sports.filter((sport) => sport.code.toLowerCase() === eventPart.sport.toLowerCase())[0].de}</h6>
-                              <p className="text-muted">{eventPart.endurance.de}</p>
+                              <h4 className="mt-2">{this.props.sports.filter((sport) => sport.code.toLowerCase() === eventPart.sport.toLowerCase())[0].de}</h4>
+                              <p className="">{eventPart.endurance.de}</p>
                               <hr />
-                              <ul className="list-unstyled">
+                              
+                               <p>{eventPart.courses[1] ? "Strecken" : "Strecke"}</p>
                                 {eventPart.courses.map((course) => {
                                   return(
-                                    <li>
-                                      <span className="col-3">
-                                        {this.props.sports.filter((sport) => sport.code === course.sport)[0].de}
-                                      </span>
-                                      <span className="col-3 offset-1">
-                                         {course.distance} km
-                                      </span>
-                                      </li>
+                                  <span>                                     
+                                        {this.props.sports.filter((sport) => sport.code === course.sport)[0].de}:&nbsp;{course.distance} km &nbsp;
+                                 
+                                     </span>
+                                      
                                   );
                                 })}                      
-                              </ul>                    
+                                                 
                             </CardText>
                                         
                         </CardBody>
@@ -71,6 +64,9 @@ class SportEventDetail extends Component {
             <div className="container">
               <div className="row">
                 <h1>{this.props.sportEvent.name}</h1>
+                <h3>{this.props.sportEvent.host}</h3>
+                <h3>{this.props.sportEvent.postalCode} {this.props.sportEvent.city}</h3>
+            
                 <hr />
                 <h2>{this.props.sportEvent.start} {this.props.sportEvent.end ? <span> - {this.props.sportEvent.end}</span> : null}</h2>
                 <div className="row">

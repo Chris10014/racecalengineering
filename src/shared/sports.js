@@ -34,6 +34,12 @@ export const SPORTS = [
         code: "bike",
         de: "Radfahren",
         en: "Bike"
+    },
+    {
+        id: 5,
+        code: "ctf",
+        de: "Cross Country Fahrt",
+        en: "Cross country trail"
     }
 
 ]

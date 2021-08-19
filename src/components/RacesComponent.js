@@ -27,7 +27,7 @@ class Races extends Component {
                     <CardImgOverlay>
                       <CardTitle>
                         <div className="milky-background">
-                          <h2>
+                          <h2 className="sport-event-name">
                             <div className="row">
                               <span className="col-10">
                                 {sportEvent.start} {sportEvent.end ? (<span> - {sportEvent.end}</span>) : null}{/**renders sportEvent.end only if it exists and != null */}
@@ -37,7 +37,7 @@ class Races extends Component {
                               </span>
                             </div>
                           </h2>
-                          <h1>
+                          <h1 className="sport-event-name">
                             {sportEvent.name}
                           </h1>
                         </div>{/** /.milky-background sport-event-name */}
