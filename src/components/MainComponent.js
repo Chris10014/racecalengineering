@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Header from "./HeaderComponent";
-import Races from "./RacesComponent";
+import EventCalendar from "./EventCalendarComponent";
 import SportEventDetail from './SportEventDetailComponent';
 import Home from './HomeComponent';
 import { SPORTEVENTS } from "../shared/sportEvents";
@@ -43,8 +43,8 @@ class Main extends Component {
             <Header />
             <Switch>
               <Route path='/home' component={HomePage} />
-              <Route exact path='/races' component={() => <Races sportEvents={this.state.sportEvents} countries={this.state.countries} onClick={(sportEventId) => this.onSportEventSelect(sportEventId)} />} />
-              <Route path='/races/:sportEventId' component={SportEventWIthId} />
+              <Route exact path='/eventcalendar' component={() => <EventCalendar sportEvents={this.state.sportEvents} countries={this.state.countries} onClick={(sportEventId) => this.onSportEventSelect(sportEventId)} />} />
+              <Route path='/eventcalendar/:sportEventId' component={SportEventWIthId} />
               <Redirect to="/home" />
           </Switch>
             

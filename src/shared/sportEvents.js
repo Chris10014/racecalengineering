@@ -3,7 +3,7 @@ export const SPORTEVENTS = [
     id: 0,
     name: "Ladenburger Triathlonfestival",
     host: "TV Ladenburg",
-    visual: "ladenburger_triathlon_festival.jpg",
+    visual: "",
     homepage: "https://roemerman.de/",
     start: "17.07.2021",
     end: "19.07.2021",
@@ -37,7 +37,7 @@ export const SPORTEVENTS = [
             distance: "0,5",
           },
           {
-            sport: "TT",
+            sport: "bike",
             distance: "20",
           },
           {
@@ -62,7 +62,7 @@ export const SPORTEVENTS = [
             distance: "1,8",
           },
           {
-            sport: "TT",
+            sport: "bike",
             distance: "42",
           },
           {
@@ -98,7 +98,7 @@ export const SPORTEVENTS = [
       {
         id: 0,
         name: "Staufen Bike kurz",
-        sport: "bike",
+        sport: "ctf",
         endurance: {
           de: "kurz",
           en: "short",
@@ -107,7 +107,7 @@ export const SPORTEVENTS = [
         competition: false,
         courses: [
           {
-            sport: "MTB",
+            sport: "mtb",
             distance: "20",
           },
         ],
@@ -115,7 +115,7 @@ export const SPORTEVENTS = [
       {
         id: 1,
         name: "Staufen Bike mittel",
-        sport: "bike",
+        sport: "ctf",
         endurance: "",
         start: "30.03.2021",
         competition: false,
@@ -129,7 +129,7 @@ export const SPORTEVENTS = [
       {
         id: 2,
         name: "Staufen Bike lang",
-        sport: "bike",
+        sport: "ctf",
         endurance: "",
         start: "30.03.2021",
         competition: false,
@@ -179,7 +179,7 @@ export const SPORTEVENTS = [
             distance: "0,5",
           },
           {
-            sport: "TT",
+            sport: "bike",
             distance: "20",
           },
           {
@@ -204,7 +204,7 @@ export const SPORTEVENTS = [
             distance: "1,8",
           },
           {
-            sport: "TT",
+            sport: "bike",
             distance: "42",
           },
           {
@@ -220,7 +220,7 @@ export const SPORTEVENTS = [
     id: 3,
     name: "Staufen Bike",
     host: "RSV Hattersheim",
-    visual: "staufen_bike.jpg",
+    visual: "",
     homepage: "https://www.rc-hattersheim.de/de/home/",
     start: "30.03.2021",
     end: "",

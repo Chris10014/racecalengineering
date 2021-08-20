@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Media } from "reactstrap";
+import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem} from "reactstrap";
 // get our fontawesome imports
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 
 
 
-class Races extends Component {
+class EventCalendar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,16 +14,29 @@ class Races extends Component {
     };
   }
 
+    renderEventVisual(sportEvent) {
+      const random = (min = 0, max = 50) => {
+        let num = Math.random() * (max - min) + min;
+
+        return Math.floor(num);
+      };
+
+      if(sportEvent.visual != null && sportEvent.visual.length > 3) {
+        return sportEvent.visual;
+        } else {
+          return sportEvent.races[0].sport.toLowerCase() + "_" + random(1, 3) + ".jpg";
+      }
+    }
+
     render() {
-        const race = this.props.sportEvents.map((sportEvent) => {
+        const eventCalendar = this.props.sportEvents.map((sportEvent) => {
           return (
             <div key={sportEvent.id} className="col-12 col-md-4">
               <Card className="h-100 text-white bg-dark">
-              
                 <CardBody>
                   <div>
-                  <Link className="text-decoration-none text-white" to={`/races/${sportEvent.id}`}>
-                    <CardImg width="100%" src={"assets/images/event-visuals/" + (sportEvent.visual)} alt="" />
+                  <Link className="text-decoration-none text-white" to={`/eventcalendar/${sportEvent.id}`}>
+                    <CardImg className="card-img-overlay" width="100%" src={"assets/images/event-visuals/" + this.renderEventVisual(sportEvent) } alt="" />
                     <CardImgOverlay>
                       <CardTitle>
                         <div className="milky-background">
@@ -33,7 +46,7 @@ class Races extends Component {
                                 {sportEvent.start} {sportEvent.end ? (<span> - {sportEvent.end}</span>) : null}{/**renders sportEvent.end only if it exists and != null */}
                               </span>
                               <span className="col-2">
-                                <img className="img-fluid" src={"assets/images/country-flags/svg/" + (sportEvent.countryCode).toUpperCase() + ".svg"} alt="" align="absmiddle" />
+                                <img className="img-fluid" src={"assets/images/country-flags/svg/" + (sportEvent.countryCode).toLowerCase() + ".svg"} alt="" align="absmiddle" />
                               </span>
                             </div>
                           </h2>
@@ -68,15 +81,21 @@ class Races extends Component {
         return (
           <div className="container">
             <div className="row">
+              <Breadcrumb>
+                <BreadcrumbItem>
+                  <Link to="/home">Home</Link>
+                </BreadcrumbItem>
+                <BreadcrumbItem active>Veranstaltungen</BreadcrumbItem>
+              </Breadcrumb>
               <h1>Veranstaltungskalender</h1>
               <hr />
               <div className="row row-cols-1 row-cols-md-3 g-4">
-                {race}
-              </div>              
+                {eventCalendar}
+              </div>
             </div>
           </div>
         );
     }
 }
 
-export default Races;
+export default EventCalendar;

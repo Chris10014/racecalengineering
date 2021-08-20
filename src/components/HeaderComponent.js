@@ -21,7 +21,7 @@ class Header extends Component {
     render() {
         return(
             <div>
-                <Navbar className="navbar navbar-dark bg-dark" expand="md">
+                <Navbar className="navbar navbar-dark bg-dark sticky-top mb-3" expand="md">
                     <div className="container">
                         <NavbarToggler onClick={this.toggleNav} />
                         <NavbarBrand className="mr-auto" href="/"><img src='assets/images/logo.png' height="30" width="41" alt='BigPoints' /></NavbarBrand>
@@ -31,7 +31,7 @@ class Header extends Component {
                                 <NavLink className="nav-link"  to='/home'> Home</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink className="nav-link" to='/races'> Veranstaltungen</NavLink>
+                                <NavLink className="nav-link" to='/eventcalendar'> Veranstaltungen</NavLink>
                             </NavItem>                            
                             </Nav>
                         </Collapse>
