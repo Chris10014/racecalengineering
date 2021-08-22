@@ -5,7 +5,7 @@ export const SPORTEVENTS = [
     host: "TV Ladenburg",
     visual: "",
     homepage: "https://roemerman.de/",
-    start: "17.07.2021",
+    start: "",
     end: "19.07.2021",
     city: "Ladenburg",
     postalCode: "68526",
@@ -31,17 +31,18 @@ export const SPORTEVENTS = [
 
         start: "17.07.2021",
         competition: true,
+        virtual: true,
         courses: [
           {
-            sport: "swim",
+            course: "swim",
             distance: "0,5",
           },
           {
-            sport: "bike",
+            course: "rb",
             distance: "20",
           },
           {
-            sport: "run",
+            course: "run",
             distance: "5",
           },
         ],
@@ -58,15 +59,15 @@ export const SPORTEVENTS = [
         competition: true,
         courses: [
           {
-            sport: "swim",
+            course: "swim",
             distance: "1,8",
           },
           {
-            sport: "bike",
+            course: "rb",
             distance: "42",
           },
           {
-            sport: "run",
+            course: "run",
             distance: "10",
           },
         ],
@@ -76,7 +77,7 @@ export const SPORTEVENTS = [
 
   {
     id: 1,
-    name: "Staufen Bike",
+    name: "StaufenBike",
     host: "RSV Hattersheim",
     visual: "staufen_bike.jpg",
     homepage: "https://www.rc-hattersheim.de/de/home/",
@@ -97,7 +98,7 @@ export const SPORTEVENTS = [
     races: [
       {
         id: 0,
-        name: "Staufen Bike kurz",
+        name: "StaufenBike kurz",
         sport: "ctf",
         endurance: {
           de: "kurz",
@@ -107,35 +108,35 @@ export const SPORTEVENTS = [
         competition: false,
         courses: [
           {
-            sport: "mtb",
+            course: "mtb",
             distance: "20",
           },
         ],
       },
       {
         id: 1,
-        name: "Staufen Bike mittel",
+        name: "StaufenBike mittel",
         sport: "ctf",
         endurance: "",
         start: "30.03.2021",
         competition: false,
         courses: [
           {
-            sport: "MTB",
+            course: "MTB",
             distance: "40",
           },
         ],
       },
       {
         id: 2,
-        name: "Staufen Bike lang",
+        name: "StaufenBike lang",
         sport: "ctf",
         endurance: "",
         start: "30.03.2021",
         competition: false,
         courses: [
           {
-            sport: "MTB",
+            course: "MTB",
             distance: "60",
           },
         ],
@@ -175,15 +176,15 @@ export const SPORTEVENTS = [
         competition: true,
         courses: [
           {
-            sport: "swim",
+            course: "swim",
             distance: "0,5",
           },
           {
-            sport: "bike",
+            course: "rb",
             distance: "20",
           },
           {
-            sport: "run",
+            course: "run",
             distance: "5",
           },
         ],
@@ -200,15 +201,15 @@ export const SPORTEVENTS = [
         competition: true,
         courses: [
           {
-            sport: "swim",
+            course: "swim",
             distance: "1,8",
           },
           {
-            sport: "bike",
+            course: "rb",
             distance: "42",
           },
           {
-            sport: "run",
+            course: "run",
             distance: "10",
           },
         ],
@@ -218,7 +219,7 @@ export const SPORTEVENTS = [
 
   {
     id: 3,
-    name: "Staufen Bike",
+    name: "StaufenBike",
     host: "RSV Hattersheim",
     visual: "",
     homepage: "https://www.rc-hattersheim.de/de/home/",
@@ -239,14 +240,14 @@ export const SPORTEVENTS = [
     races: [
       {
         id: 0,
-        name: "Staufen Bike kurz",
+        name: "StaufenBike kurz",
         sport: "ctf",
         endurance: "",
         start: "30.03.2021",
         competition: false,
         courses: [
           {
-            sport: "MTB",
+            course: "MTB",
             distance: "20",
           },
         ],
@@ -260,21 +261,21 @@ export const SPORTEVENTS = [
         competition: false,
         courses: [
           {
-            sport: "MTB",
+            course: "MTB",
             distance: "40",
           },
         ],
       },
       {
         id: 2,
-        name: "Staufen Bike lang",
+        name: "StaufenBike lang",
         sport: "ctf",
         endurance: "",
         start: "30.03.2021",
         competition: false,
         courses: [
           {
-            sport: "MTB",
+            course: "MTB",
             distance: "60",
           },
         ],

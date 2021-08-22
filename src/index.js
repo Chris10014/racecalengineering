@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
+import "popper.js/dist/popper.min.js";
 // import "font-awesome/css/font-awesome.css";
 // get our fontawesome imports
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

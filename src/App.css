@@ -2,19 +2,12 @@ body {
   font-family: 'PT Serif', serif;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Lato', sans-serif;
+}
+
 h1 {
-  font-family: 'Lato', sans-serif;
   font-weight: bold;
-}
-
-.sport-event-name {
-  font-family: 'Lato', sans-serif;
-  font-size: large;
-  color: rgb(0, 0, 0);
-}
-
-h2, h3, h4, h5, h6 {
-  font-family: 'Lato', sans-serif;
 }
 
 .inline {
@@ -37,6 +30,11 @@ h2, h3, h4, h5, h6 {
   padding: 1%;
 }
 
+.bg-dark-transparent {
+  background-color: rgba(33, 37, 41, 0.6);
+  padding: 1%;
+}
+
 .card-link {
   position:relative; /*this makes class .card-link work in cards with class .card-img-overlay */
 }
@@ -46,8 +44,13 @@ h2, h3, h4, h5, h6 {
   flex-direction: column;
 }
 
-.card-img-overlay {
+.card-img-over { /* card-img-overlay seems to exist */
     width: 100%;
-    height: 10vw;
-    object-fit: cover;
+    height: 20vh; /*not want to take all vertical space*/
+    object-fit: cover;/*show all image, autosized, no cut, in available space*/
+}
+
+.event-logo {
+  max-height: 80px;
+  float: right; /* push logo to the right */
 }

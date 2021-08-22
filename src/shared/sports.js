@@ -7,13 +7,13 @@ export const SPORTS = [
   },
   {
     id: 1,
-    code: "bike",
+    code: "rb",
     de: "Rennrad",
     en: "Roadbike",
   },
   {
     id: 2,
-    code: "MTB",
+    code: "mtb",
     de: "Mountainbike",
     en: "Mountainbike",
   },
@@ -32,20 +32,20 @@ export const SPORTS = [
   {
     id: 4,
     code: "bike",
-    de: "Radfahren",
-    en: "Bike",
+    de: "Rad",
+    en: "Biking",
   },
   {
     id: 5,
     code: "ctf",
-    de: "Cross Country Fahrt",
-    en: "Cross country ride",
+    de: "CTF",
+    en: "CTF",
   },
   {
     id: 6,
     code: "rtf",
-    de: "Radtouristik Fahrt",
-    en: "Bike tourist ride"
+    de: "RTF",
+    en: "RTF"
   },
   {
     id: 7,
