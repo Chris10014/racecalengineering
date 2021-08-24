@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Header from "./HeaderComponent";
+import Footer from "./Footercomponent";
 import EventCalendar from "./EventCalendarComponent";
 import SportEventDetail from './SportEventDetailComponent';
 import Home from './HomeComponent';
@@ -47,7 +48,7 @@ class Main extends Component {
               <Route path='/eventcalendar/:sportEventId' component={SportEventWIthId} />
               <Redirect to="/home" />
           </Switch>
-            
+          <Footer />            
           </div>
         );
       }

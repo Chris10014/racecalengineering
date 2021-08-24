@@ -165,7 +165,7 @@ class SportEventDetail extends Component {
                 </h3>
               </div>
               <div className="col-4">
-                <img className="img-fluid event-logo align-self-end" src={"/assets/images/event-logos/" + this.props.sportEvent.name + ".jpg"} alt="" align="absmiddle" />
+                <img className="img-fluid event-logo align-self-end" src={"/assets/images/event-logos/" + this.props.sportEvent.logo } alt="" align="absmiddle" />
               </div>
             </div>
             <hr />
