@@ -3,6 +3,7 @@ import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Breadcrum
 // get our fontawesome imports
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import SearchField from "./SearchFieldComponent";
 
 
 class EventCalendar extends Component {
@@ -120,8 +121,9 @@ class EventCalendar extends Component {
             </BreadcrumbItem>
             <BreadcrumbItem active>Veranstaltungen</BreadcrumbItem>
           </Breadcrumb>
-          <h1>Veranstaltungskalender</h1>
+          <h1>Veranstaltungskalender</h1>         
           <hr />
+          <SearchField id="eventSearch" label="Veranstaltung" placeholder="Nach Name suchen ..." text="Suche nach Veranstaltungsnamen" />
           <div className="row row-cols-1 row-cols-md-3 g-4">
             {eventCalendar}
           </div>
