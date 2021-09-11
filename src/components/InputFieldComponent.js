@@ -4,22 +4,27 @@ import { Input, InputGroup, Button } from 'reactstrap'
 // get our fontawesome imports
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-function SearchField(props) {
+function InputField(props) {
   return (
     <div className="container">
       <div className="row">
         <label className="col-form-label" for={props.id}>{props.label ? props.label + ":" : ""}</label>
-        <div className="col-12 col-md-4">
+        <div className="col-12">
           <InputGroup>
             <Input
-              type="text"
+              type={props.type}
               id={props.label}
-              placeholder={props.placeholder}
+              name={props.id}
+              placeholder={props.placeholder}              
               aria-describedby={props.id + "Help"}
+              value={props.default}
             />
+            {props.icon ? 
             <Button className="btn btn-dark">
-              <FontAwesomeIcon icon="search" size="" />
-            </Button>
+              <FontAwesomeIcon icon={props.icon} size="" />
+            </Button> : null
+            }
+            
           </InputGroup>
           <div className="form-text" id={props.id + "Help"}>
             {props.text}
@@ -30,4 +35,4 @@ function SearchField(props) {
   );
 }
 
-export default SearchField;
+export default InputField;

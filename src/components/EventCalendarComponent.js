@@ -3,13 +3,22 @@ import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Breadcrum
 // get our fontawesome imports
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import SearchField from "./SearchFieldComponent";
+import InputField from "./InputFieldComponent";
 
 
 class EventCalendar extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+
+    const today = new Intl.DateTimeFormat("de", {
+      //  year: "numeric",
+      //  month: "2-digit",
+      //  day: "2-digit",
+    }).format(new Date());
+
+    this.state = {
+      
+    };
   }
 
   /**
@@ -110,7 +119,7 @@ class EventCalendar extends Component {
           </Card>
         </div> /** /key=sportEvent.id */
       );
-    });
+    }); 
 
     return (
       <div className="container">
@@ -121,9 +130,31 @@ class EventCalendar extends Component {
             </BreadcrumbItem>
             <BreadcrumbItem active>Veranstaltungen</BreadcrumbItem>
           </Breadcrumb>
-          <h1>Veranstaltungskalender</h1>         
+          <h1>Veranstaltungskalender</h1>
           <hr />
-          <SearchField id="eventSearch" label="Veranstaltung" placeholder="Nach Name suchen ..." text="Suche nach Veranstaltungsnamen" />
+          <div className="row">
+            <div className="col-12 col-md-6">
+              <InputField
+                id="eventSearch"
+                type="search"
+                label="Veranstaltung"              
+                placeholder="Nach Name suchen ..."
+                text="Suche nach Veranstaltungsnamen."
+                icon="search"
+              />
+            </div>
+            <div className="col-12 col-md-6">
+              <InputField
+                id="dateSearch"
+                type="date"
+                label="Datum"
+               
+                placeholder="Ab Datum suchen ..."
+                text="Suche nach Veranstaltungen ab einem Datum."
+                icon="calendar-alt"
+              />
+            </div>
+          </div>
           <div className="row row-cols-1 row-cols-md-3 g-4">
             {eventCalendar}
           </div>
