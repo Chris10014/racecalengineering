@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem} from "reactstrap";
 // get our fontawesome imports
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,8 +17,14 @@ class EventCalendar extends Component {
     }).format(new Date());
 
     this.state = {
-      
+      eventSearchTerm: "",
+      dateSearchTerm: ""      
     };
+     this.handleOnChangeEventSearch = this.handleOnChangeEventSearch.bind(this);
+  }
+
+  handleOnChangeEventSearch(searchTerm) {
+    this.setState({ eventSearchTerm: searchTerm });
   }
 
   /**
@@ -44,7 +50,17 @@ class EventCalendar extends Component {
   }
 
   render() {
-    const eventCalendar = this.props.sportEvents.map((sportEvent) => {
+    const eventCalendar = this.props.sportEvents.filter((sportEvent) => {
+      if(this.state.eventSearchTerm === "") {
+        return sportEvent
+      } else if (
+        sportEvent.name
+          .toLowerCase()
+          .includes(this.state.eventSearchTerm.toLowerCase())
+      ) {
+        return sportEvent;
+      }
+    }).map((sportEvent) => {
       return (
         <div key={sportEvent.id} className="col-12 col-md-6 col-lg-4">
           <Card className="h-100 text-white bg-dark">
@@ -141,6 +157,7 @@ class EventCalendar extends Component {
                 placeholder="Nach Name suchen ..."
                 text="Suche nach Veranstaltungsnamen."
                 icon="search"
+                onChange={event => {this.handleOnChangeEventSearch(event.target.value)}}
               />
             </div>
             <div className="col-12 col-md-6">

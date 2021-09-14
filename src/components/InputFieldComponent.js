@@ -18,6 +18,7 @@ function InputField(props) {
               placeholder={props.placeholder}              
               aria-describedby={props.id + "Help"}
               value={props.default}
+              onChange={props.onChange}
             />
             {props.icon ? 
             <Button className="btn btn-dark">
