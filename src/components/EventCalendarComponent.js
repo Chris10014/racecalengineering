@@ -18,13 +18,18 @@ class EventCalendar extends Component {
 
     this.state = {
       eventSearchTerm: "",
-      dateSearchTerm: ""      
+      dateSearchTerm: new Date().getTime()      
     };
      this.handleOnChangeEventSearch = this.handleOnChangeEventSearch.bind(this);
+     this.handleOnChangeDateSearch = this.handleOnChangeDateSearch.bind(this);
   }
 
   handleOnChangeEventSearch(searchTerm) {
     this.setState({ eventSearchTerm: searchTerm });
+  }
+
+  handleOnChangeDateSearch(searchTerm) {
+    this.setState({ dateSearchTerm: searchTerm });
   }
 
   /**
@@ -51,12 +56,15 @@ class EventCalendar extends Component {
 
   render() {
     const eventCalendar = this.props.sportEvents.filter((sportEvent) => {
-      if(this.state.eventSearchTerm === "") {
+      if(this.state.eventSearchTerm === "" && this.state.dateSearchTerm === "") {
         return sportEvent
       } else if (
-        sportEvent.name
-          .toLowerCase()
-          .includes(this.state.eventSearchTerm.toLowerCase())
+        (sportEvent.name.toLowerCase().includes(this.state.eventSearchTerm.toLowerCase()) ||
+        sportEvent.postalCode.includes(this.state.eventSearchTerm) ||
+        sportEvent.city.toLowerCase().includes(this.state.eventSearchTerm.toLowerCase())) &&
+        
+        new Date(sportEvent.start.split(".").reverse().join("-")).getTime() >= new Date(this.state.dateSearchTerm).getTime() /** to handle date = "" */
+          
       ) {
         return sportEvent;
       }
@@ -154,8 +162,8 @@ class EventCalendar extends Component {
                 id="eventSearch"
                 type="search"
                 label="Veranstaltung"              
-                placeholder="Nach Name suchen ..."
-                text="Suche nach Veranstaltungsnamen."
+                placeholder="Name, Ort, PLZ ..."
+                text="Suche nach Veranstaltung."
                 icon="search"
                 onChange={event => {this.handleOnChangeEventSearch(event.target.value)}}
               />
@@ -164,16 +172,17 @@ class EventCalendar extends Component {
               <InputField
                 id="dateSearch"
                 type="date"
-                label="Datum"
-               
+                label="Datum"               
                 placeholder="Ab Datum suchen ..."
                 text="Suche nach Veranstaltungen ab einem Datum."
                 icon="calendar-alt"
+                // value={this.state.dateSearchTerm}
+                onChange={event => {this.handleOnChangeDateSearch(event.target.value)}}
               />
             </div>
           </div>
           <div className="row row-cols-1 row-cols-md-3 g-4">
-            {eventCalendar}
+              { eventCalendar.length != 0 ? eventCalendar : <p>Die Suche ergab keine Ergebnisse.</p> }     
           </div>
         </div>
       </div>
