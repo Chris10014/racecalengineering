@@ -8,24 +8,25 @@ function InputField(props) {
   return (
     <div className="container">
       <div className="row">
-        <label className="col-form-label" for={props.id}>{props.label ? props.label + ":" : ""}</label>
+        <label className="col-form-label" for={props.id}>
+          {props.label ? props.label + ":" : ""}
+        </label>
         <div className="col-12">
           <InputGroup>
             <Input
               type={props.type}
               id={props.label}
               name={props.id}
-              placeholder={props.placeholder}              
+              placeholder={props.placeholder}
               aria-describedby={props.id + "Help"}
-              value={props.default}
               onChange={props.onChange}
+              value={props.value}
             />
-            {props.icon ? 
-            <Button className="btn btn-dark">
-              <FontAwesomeIcon icon={props.icon} size="" />
-            </Button> : null
-            }
-            
+            {props.icon ? (
+              <Button className="btn btn-dark">
+                <FontAwesomeIcon icon={props.icon} size="" />
+              </Button>
+            ) : null}
           </InputGroup>
           <div className="form-text" id={props.id + "Help"}>
             {props.text}
