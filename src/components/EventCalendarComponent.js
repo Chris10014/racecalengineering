@@ -1,5 +1,5 @@
 import React, { Component, useState } from "react";
-import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem} from "reactstrap";
+import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem, Form } from "reactstrap";
 // get our fontawesome imports
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
@@ -11,27 +11,54 @@ class EventCalendar extends Component {
     super(props);
 
     const today = new Date().toLocaleString("de-DE", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit"
-       }) // Creates today's day as dd.mm.yyyy
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    }); // Creates today's date as dd.mm.yyyy
 
-    
     this.state = {
       eventSearchTerm: "",
-      dateSearchTerm: today.split(".").reverse().join("-") //Converts the today's date (default value) into format yyy-mm-dd to be compatible with html 5
+      dateSearchTerm: today.split(".").reverse().join("-"), //Converts the today's date (default value) into format yyy-mm-dd to be compatible with html 5
+      countrySearchTerm: "",
     };
 
     this.handleOnChangeEventSearch = this.handleOnChangeEventSearch.bind(this);
     this.handleOnChangeDateSearch = this.handleOnChangeDateSearch.bind(this);
+    this.handleOnChangeCountrySearch = this.handleOnChangeCountrySearch.bind(this);
+  }
+
+  componentDidMount() {
+    /**
+     * To persist the input data of the search fields when a user clicked on event details and then back to the overview.
+     * If the user closes the browser window, the sessionStorage will be cleared and the default value of the states are loaded when the page is opened again.
+     */
+    const eventSearchTerm = sessionStorage.getItem("eventSearchTerm");
+    if (eventSearchTerm !== null) {
+      this.setState({ eventSearchTerm: eventSearchTerm });
+    }
+    const dateSearchTerm = sessionStorage.getItem("dateSearchTerm");
+    if (dateSearchTerm !== null) {
+      this.setState({ dateSearchTerm: dateSearchTerm });
+    }
+    const countrySearchTerm = sessionStorage.getItem("countrySearchTerm");
+    if (countrySearchTerm !== null) {
+      this.setState({ countrySearchTerm: countrySearchTerm });
+    }
   }
 
   handleOnChangeEventSearch(searchTerm) {
     this.setState({ eventSearchTerm: searchTerm });
+    sessionStorage.setItem("eventSearchTerm", searchTerm);
   }
 
   handleOnChangeDateSearch(searchTerm) {
     this.setState({ dateSearchTerm: searchTerm });
+    sessionStorage.setItem("dateSearchTerm", searchTerm);
+  }
+
+  handleOnChangeCountrySearch(searchTerm) {
+    this.setState({ countrySearchTerm: searchTerm });
+    sessionStorage.setItem("countrySearchTerm", searchTerm);
   }
 
   /**
@@ -58,115 +85,138 @@ class EventCalendar extends Component {
 
   render() {
     // eslint-disable-next-line array-callback-return
-    const eventCalendar = this.props.sportEvents.filter((sportEvent) => {
-      if(this.state.eventSearchTerm === "" && this.state.dateSearchTerm === "") {
-        return sportEvent
-      } else if (// Only text defined
-        this.state.dateSearchTerm === "" &&
-        (
-          sportEvent.name.toLowerCase().includes(this.state.eventSearchTerm.toLowerCase()) ||
-          sportEvent.postalCode.includes(this.state.eventSearchTerm) ||
-          sportEvent.city.toLowerCase().includes(this.state.eventSearchTerm.toLowerCase()) ||
-          sportEvent.races.find((race) => race.name.toLowerCase().includes(this.state.eventSearchTerm)) //Searches in the nested array races for searchTerm
-        )
-      ) {
-        return sportEvent;
-      } else if (// Only date is defined
-        this.state.eventSearchTerm === "" &&
-        new Date(sportEvent.start.split(".").reverse().join("-")).getTime() >= new Date(this.state.dateSearchTerm).getTime() /** to handle date = "" */
-      ) {
-        return sportEvent;
-      } else if (// Text and date defined
-        (
-          sportEvent.name.toLowerCase().includes(this.state.eventSearchTerm.toLowerCase()) ||
-          sportEvent.postalCode.includes(this.state.eventSearchTerm) ||
-          sportEvent.city.toLowerCase().includes(this.state.eventSearchTerm.toLowerCase()) ||
-          sportEvent.races.find((race) => race.name.toLowerCase().includes(this.state.eventSearchTerm))
-       ) &&
-        new Date(sportEvent.start.split(".").reverse().join("-")).getTime() >= new Date(this.state.dateSearchTerm).getTime() /** to handle date = "" */
-      ) {
-        return sportEvent;
-       }
-    }).map((sportEvent) => {
-      return (
-        <div key={sportEvent.id} className="col-12 col-md-6 col-lg-4">
-          <Card className="h-100 text-white bg-dark">            
-            <CardBody>              
-              <Link
-                className="text-decoration-none text-white"
-                to={`/eventcalendar/${sportEvent.id}`}
-              >
-                {/*link to the sportEvent details */}
-                <CardImg
-                  className="card-img-over mb-3"
-                  src={
-                    "/assets/images/event-visuals/" +
-                    this.renderEventVisual(sportEvent)
-                  }
-                  alt=""
-                />
-                <CardImgOverlay>
-                  <CardTitle>
-                    <div className="bg-dark-transparent">
-                      <h6 className="">
-                        <div className="row">
-                          <span className="col-10">
-                            {sportEvent.start
-                              ? sportEvent.start
-                              : "nicht terminiert"}
-                            {sportEvent.end && sportEvent.start ? (
-                              <span> - {sportEvent.end}</span>
-                            ) : null}{" "}
-                            {/*renders sportEvent.end only if itself and sportEvent.start exist and != null */}
-                          </span>
-                          <span className="col-2">
-                            <img
-                              className="img-fluid"
-                              src={
-                                "assets/images/country-flags/svg/" +
-                                sportEvent.countryCode.toLowerCase() +
-                                ".svg"
-                              }
-                              alt=""
-                              align="absmiddle"
-                            />
-                          </span>
-                        </div>
-                        {/* / .row */}
-                      </h6>
-                      <h4 className="">{sportEvent.name}</h4>
-                    </div>
-                    {/* /.bg-dark-transparent */}
-                  </CardTitle>
-                </CardImgOverlay>
-                <CardText>
-                  <h6 className="mt-2 text-muted">{sportEvent.host}</h6>
-                  <p className="text-muted">
-                    <small>
-                      in {sportEvent.postalCode} {sportEvent.city}
-                    </small>
-                  </p>
-                  <hr />
-                  <ul className="list-unstyled">
-                    {sportEvent.races.map((race) => {
-                      return <li>{race.name}</li>;
-                    })}
-                  </ul>
-                </CardText>
-              </Link>
-              <a
-                className="mt-auto card-link text-decoration-none"
-                href={sportEvent.homepage}
-                target="_blank"
-                rel="noreferrer"
-              >
-                <FontAwesomeIcon icon="globe" /> Homepage
-              </a>
-            </CardBody>
-          </Card>          
-        </div> /** /key=sportEvent.id */
-      );
-    }); 
+    const eventCalendar = this.props.sportEvents
+      .sort((a, b) => a.start < b.start)
+      .filter((sportEvent) => {
+        if (
+          this.state.eventSearchTerm === "" &&
+          this.state.dateSearchTerm === ""
+        ) {
+          return sportEvent;
+        } else if (
+          // Only text defined
+          this.state.dateSearchTerm === "" &&
+          (sportEvent.name
+            .toLowerCase()
+            .includes(this.state.eventSearchTerm.toLowerCase()) ||
+            sportEvent.postalCode.startsWith(this.state.eventSearchTerm) ||
+            sportEvent.city
+              .toLowerCase()
+              .startsWith(this.state.eventSearchTerm.toLowerCase()) ||
+            sportEvent.races.find((race) =>
+              race.name.toLowerCase().includes(this.state.eventSearchTerm)
+            )) //Searches in the nested array "races" for "race.name"        )
+        ) {
+          return sportEvent;
+        } else if (
+          // Only date is defined
+          this.state.eventSearchTerm === "" &&
+          new Date(sportEvent.start.split(".").reverse().join("-")).getTime() >=
+            new Date(
+              this.state.dateSearchTerm
+            ).getTime() /** to handle date = "" */
+        ) {
+          return sportEvent;
+        } else if (
+          // Text and date defined
+          (sportEvent.name
+            .toLowerCase()
+            .includes(this.state.eventSearchTerm.toLowerCase()) ||
+            sportEvent.postalCode.startsWith(this.state.eventSearchTerm) ||
+            sportEvent.city
+              .toLowerCase()
+              .startsWith(this.state.eventSearchTerm.toLowerCase()) ||
+            sportEvent.races.find((race) =>
+              race.name.toLowerCase().includes(this.state.eventSearchTerm)
+            )) &&
+          new Date(sportEvent.start.split(".").reverse().join("-")).getTime() >=
+            new Date(
+              this.state.dateSearchTerm
+            ).getTime() /** to handle date = "" */
+        ) {
+          return sportEvent;
+        }
+      })
+      .map((sportEvent) => {
+        return (
+          <div key={sportEvent.id} className="col-12 col-md-6 col-lg-4">
+            <Card className="h-100 text-white bg-dark">
+              <CardBody>
+                <Link
+                  className="text-decoration-none text-white"
+                  to={`/eventcalendar/${sportEvent.id}`}
+                >
+                  {/*link to the sportEvent details */}
+                  <CardImg
+                    className="card-img-over mb-3"
+                    src={
+                      "/assets/images/event-visuals/" +
+                      this.renderEventVisual(sportEvent)
+                    }
+                    alt=""
+                  />
+                  <CardImgOverlay>
+                    <CardTitle>
+                      <div className="bg-dark-transparent">
+                        <h6 className="">
+                          <div className="row">
+                            <span className="col-10">
+                              {sportEvent.start
+                                ? sportEvent.start
+                                : "nicht terminiert"}
+                              {sportEvent.end && sportEvent.start ? (
+                                <span> - {sportEvent.end}</span>
+                              ) : null}{" "}
+                              {/*renders sportEvent.end only if itself and sportEvent.start exist and != null */}
+                            </span>
+                            <span className="col-2">
+                              <img
+                                className="img-fluid"
+                                src={
+                                  "assets/images/country-flags/svg/" +
+                                  sportEvent.countryCode.toLowerCase() +
+                                  ".svg"
+                                }
+                                alt={sportEvent.countryCode}
+                                align="absmiddle"
+                              />
+                            </span>
+                          </div>
+                          {/* / .row */}
+                        </h6>
+                        <h4 className="">{sportEvent.name}</h4>
+                      </div>
+                      {/* /.bg-dark-transparent */}
+                    </CardTitle>
+                  </CardImgOverlay>
+                  <CardText>
+                    <h6 className="mt-2 text-muted">{sportEvent.host}</h6>
+                    <p className="text-muted">
+                      <small>
+                        in {sportEvent.postalCode} {sportEvent.city}
+                      </small>
+                    </p>
+                    <hr />
+                    <ul className="list-unstyled">
+                      {sportEvent.races.map((race) => {
+                        return <li>{race.name}</li>;
+                      })}
+                    </ul>
+                  </CardText>
+                </Link>
+                <a
+                  className="mt-auto card-link text-decoration-none"
+                  href={sportEvent.homepage}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <FontAwesomeIcon icon="globe" /> Homepage
+                </a>
+              </CardBody>
+            </Card>
+          </div> /** /key=sportEvent.id */
+        );
+      });
 
     return (
       <div className="container">
@@ -180,12 +230,12 @@ class EventCalendar extends Component {
           <h1>Veranstaltungskalender</h1>
           <hr />
           <div className="row">
-            <div className="col-12 col-md-6">
+            <div className="col-12 col-md-5">
               <InputField
                 id="eventSearch"
                 type="search"
                 label="Veranstaltung"
-                placeholder="Suche nach Name oder PLZ oder Ort ..."
+                placeholder="Name, PLZ oder Ort ..."
                 text="Suche nach Veranstaltung."
                 icon="search"
                 value={this.state.eventSearchTerm}
@@ -194,11 +244,11 @@ class EventCalendar extends Component {
                 }}
               />
             </div>
-            <div className="col-12 col-md-6">
+            <div className="col-12 col-md-3">
               <InputField
                 id="dateSearch"
                 type="date"
-                label="ab Datum"
+                label="Datum"
                 placeholder="Suche Vernstaltungen ab Datum ..."
                 text="Suche nach Veranstaltungen ab einem Datum."
                 icon="calendar-alt"
@@ -208,12 +258,29 @@ class EventCalendar extends Component {
                 }}
               />
             </div>
+            <div className="col-12 col-md-4">
+              <InputField
+                id="countrySearch"
+                type="text"
+                label="Land"
+                placeholder="Land ..."
+                text="Suche nach Veranstaltungen in einem Land."
+                icon="flag"
+                value={this.state.countrySearchTerm}
+                onChange={(event) => {
+                  this.handleOnChangeCountrySearch(event.target.value);
+                }}
+              />
+            </div>
           </div>
           <div className="row row-cols-1 row-cols-md-3 g-4">
             {eventCalendar.length !== 0 ? (
               eventCalendar
             ) : (
-              <p>Die Suche ergab keine Ergebnisse.</p>
+              <p>
+                Die Suche ergab leider kein Ergebnis.{" "}
+                <FontAwesomeIcon icon="sad-tear" size="lg" />
+              </p>
             )}
           </div>
         </div>

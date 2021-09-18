@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import { Input, InputGroup, Button } from 'reactstrap'
+import { Input, InputGroup } from 'reactstrap'
 
 // get our fontawesome imports
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -15,7 +14,7 @@ function InputField(props) {
           <InputGroup>
             <Input
               type={props.type}
-              id={props.label}
+              id={props.id}
               name={props.id}
               placeholder={props.placeholder}
               aria-describedby={props.id + "Help"}
@@ -23,9 +22,9 @@ function InputField(props) {
               value={props.value}
             />
             {props.icon ? (
-              <Button className="btn btn-dark">
-                <FontAwesomeIcon icon={props.icon} size="" />
-              </Button>
+              <span className="input-group-text">
+                <FontAwesomeIcon icon={props.icon} />
+              </span>
             ) : null}
           </InputGroup>
           <div className="form-text" id={props.id + "Help"}>

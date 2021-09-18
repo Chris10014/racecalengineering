@@ -59,3 +59,8 @@ input, label, .form-text {
   max-height: 80px;
   float: right; /* push logo to the right */
 }
+
+/* Hide the icon on a HTML date input field in Chrome */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background: none;
+}
