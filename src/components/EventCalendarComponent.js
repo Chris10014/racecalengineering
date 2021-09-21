@@ -21,6 +21,7 @@ class EventCalendar extends Component {
       eventSearchTerm: "",
       dateSearchTerm: today.split(".").reverse().join("-"), //Converts the today's date (default value) into format yyy-mm-dd to be compatible with html 5
       countrySearchTerm: "",
+      countryCode: ""
     };
 
     this.handleOnChangeEventSearch = this.handleOnChangeEventSearch.bind(this);
@@ -83,24 +84,22 @@ class EventCalendar extends Component {
       );
     }
   }
+  /**
+   * 
+   * @returns 
+   */
 
-  findCountryCode(searchTerm) {
-    // eslint-disable-next-line array-callback-return
-    // if(searchTerm && searchTerm !== null) {
-    //   this.props.countries.find((country) => {
-    //   if(         
-    //       (country.countryNameDe ? country.countryNameDe : country.countryNameEn).toLowerCase().startsWith(searchTerm.toLowerCase()) ||
-    //       country.countryNameEn.toLowerCase().startsWith(searchTerm.toLowerCase())       
-    //      ) {
-    //       console.log(country.countryCode);
-    //       return country.countryCode
-    //     }
-    // })
-    // }
-    return "DE"
-  }  
-    
   render() {
+
+    /**
+     * @returns object first country with the matching search pattern or undefined 
+     */
+    const findCountry = this.props.countries.find((country) => {
+      if(country.countryNameEn.toLowerCase().startsWith(this.state.countrySearchTerm.toLowerCase())) {
+        console.log("handleOnChangeCountrySearch: " + country.countryCode);
+          return country.countryCode; //Be carefull: cc ca be undefined
+      }
+    })
 
     // eslint-disable-next-line array-callback-return
     const eventCalendar = this.props.sportEvents
@@ -109,7 +108,8 @@ class EventCalendar extends Component {
         if (this.state.countrySearchTerm === "") {
           console.log("no country search");
           return sportEvent;
-        } else if (sportEvent.countryCode === this.findCountryCode(this.state.countrySearchTerm)) {
+        } else if (sportEvent.countryCode === (typeof findCountry !== "undefined" ? findCountry.countryCode : ""))
+         {
           return sportEvent;
         }
       // eslint-disable-next-line array-callback-return
@@ -267,8 +267,7 @@ class EventCalendar extends Component {
                 }}
               />
             </div>
-            <div className="col-12 col-md-4">
-              ups: {this.findCountryCode()}
+            <div className="col-12 col-md-4">  
               <InputField
                 id="countrySearch"
                 type="text"
