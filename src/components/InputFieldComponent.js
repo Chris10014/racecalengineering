@@ -16,6 +16,7 @@ function InputField(props) {
               type={props.type}
               id={props.id}
               name={props.id}
+              list={props.list}
               placeholder={props.placeholder}
               aria-describedby={props.id + "Help"}
               onChange={props.onChange}

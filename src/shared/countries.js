@@ -1972,6 +1972,7 @@ export const COUNTRIES = [
     phoneCode: 41,
     countryCode: "CH",
     countryNameEn: "Switzerland",
+    countryNameDe: "Schweiz",
     alpha_3: "CHE",
     continentCode: "EU",
     continentNameEn: "Europe",

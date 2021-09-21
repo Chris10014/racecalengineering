@@ -20,8 +20,7 @@ class EventCalendar extends Component {
     this.state = {
       eventSearchTerm: "",
       dateSearchTerm: today.split(".").reverse().join("-"), //Converts the today's date (default value) into format yyy-mm-dd to be compatible with html 5
-      countrySearchTerm: "",
-      countryCode: ""
+      countrySearchTerm: ""
     };
 
     this.handleOnChangeEventSearch = this.handleOnChangeEventSearch.bind(this);
@@ -84,20 +83,18 @@ class EventCalendar extends Component {
       );
     }
   }
-  /**
-   * 
-   * @returns 
-   */
-
+ 
   render() {
 
     /**
+     * Find the country code of the fist country in the countries object which matches the countrySearchTerm
+     * @input object countries as object 
+     * 
      * @returns object first country with the matching search pattern or undefined 
      */
     const findCountry = this.props.countries.find((country) => {
-      if(country.countryNameEn.toLowerCase().startsWith(this.state.countrySearchTerm.toLowerCase())) {
-        console.log("handleOnChangeCountrySearch: " + country.countryCode);
-          return country.countryCode; //Be carefull: cc ca be undefined
+      if((country.countryNameDe ? country.countryNameDe : country.countryNameEn).toLowerCase().startsWith(this.state.countrySearchTerm.toLowerCase())) {
+          return country.countryCode; //Be carefull: findCountry can return undefined
       }
     })
 
@@ -105,8 +102,7 @@ class EventCalendar extends Component {
     const eventCalendar = this.props.sportEvents
       // eslint-disable-next-line array-callback-return
       .filter((sportEvent) => { //Country filter
-        if (this.state.countrySearchTerm === "") {
-          console.log("no country search");
+        if (this.state.countrySearchTerm === "") { //If no search term for country exists
           return sportEvent;
         } else if (sportEvent.countryCode === (typeof findCountry !== "undefined" ? findCountry.countryCode : ""))
          {
@@ -245,7 +241,7 @@ class EventCalendar extends Component {
                 type="search"
                 label="Veranstaltung"
                 placeholder="Name, PLZ oder Ort ..."
-                text="Suche nach Veranstaltung."
+                text="Name, Postleitzahl oder Ort eingeben."
                 icon="search"
                 value={this.state.eventSearchTerm}
                 onChange={(event) => {
@@ -259,7 +255,7 @@ class EventCalendar extends Component {
                 type="date"
                 label="Datum"
                 placeholder="Suche Vernstaltungen ab Datum ..."
-                text="Suche nach Veranstaltungen ab einem Datum."
+                text="Startdatum eingeben."
                 icon="calendar-alt"
                 value={this.state.dateSearchTerm}
                 onChange={(event) => {
@@ -271,15 +267,25 @@ class EventCalendar extends Component {
               <InputField
                 id="countrySearch"
                 type="text"
+                list="countriesDe"
                 label="Land"
                 placeholder="Land ..."
-                text="Suche nach Veranstaltungen in einem Land."
+                text="Ländername eingeben."
                 icon="flag"
                 value={this.state.countrySearchTerm}
                 onChange={(event) => {
                   this.handleOnChangeCountrySearch(event.target.value);
                 }}
               />
+              <datalist id="countriesDe">
+                {this.props.countries.map((country) => {
+                  return (
+                   country.countryNameDe ?
+                    <option value={country.countryNameDe}></option> :
+                    <option value={country.countryNameEn}></option>
+                  );                  
+                })}               
+              </datalist>
             </div>
           </div>
           <div className="row row-cols-1 row-cols-md-3 g-4">
