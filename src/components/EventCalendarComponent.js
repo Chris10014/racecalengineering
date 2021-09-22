@@ -273,12 +273,22 @@ class EventCalendar extends Component {
                 text="Ländername eingeben."
                 icon="flag"
                 value={this.state.countrySearchTerm}
+                autocomplete="off"
                 onChange={(event) => {
                   this.handleOnChangeCountrySearch(event.target.value);
                 }}
               />
+              {/* datalist for country search input field */}
               <datalist id="countriesDe">
-                {this.props.countries.map((country) => {
+                {this.props.countries.filter((country) => {
+                  if(this.state.countrySearchTerm === null) {
+                    //do nothing
+                  } else if
+                  ((country.countryNameDe ? country.countryNameDe.toLowerCase().startsWith(this.state.countrySearchTerm) : "" || 
+                country.countryNameEn.toLowerCase().startsWith(this.state.countrySearchTerm))) {
+                  return country
+                }
+              }).map((country) => {
                   return (
                    country.countryNameDe ?
                     <option value={country.countryNameDe}></option> :

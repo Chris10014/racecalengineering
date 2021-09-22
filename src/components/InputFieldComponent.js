@@ -21,6 +21,7 @@ function InputField(props) {
               aria-describedby={props.id + "Help"}
               onChange={props.onChange}
               value={props.value}
+              autocomplete={props.autocomplete}
             />
             {props.icon ? (
               <span className="input-group-text">

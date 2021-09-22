@@ -1909,6 +1909,7 @@ export const COUNTRIES = [
     phoneCode: 34,
     countryCode: "ES",
     countryNameEn: "Spain",
+    countryNameDe: "Spanien",
     alpha_3: "ESP",
     continentCode: "EU",
     continentNameEn: "Europe",
