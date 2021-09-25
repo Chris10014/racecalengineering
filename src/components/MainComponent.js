@@ -43,7 +43,7 @@ class Main extends Component {
         );
       }
 
-      const SportEventWIthId = ({match}) => {
+      const SportEventWithId = ({match}) => {
         return(
           <SportEventDetail sportEvent={this.props.sportEvents.filter((sportEvent) => sportEvent.id === parseInt(match.params.sportEventId))[0]} sports={this.props.sports} />
         );
@@ -54,7 +54,7 @@ class Main extends Component {
             <Switch>
               <Route path='/home' component={HomePage} />
               <Route exact path='/eventcalendar' component={() => <EventCalendar sportEvents={this.props.sportEvents} countries={this.props.countries} onClick={(sportEventId) => this.onSportEventSelect(sportEventId)} />} />
-              <Route path='/eventcalendar/:sportEventId' component={SportEventWIthId} />
+              <Route path='/eventcalendar/:sportEventId' component={SportEventWithId} />
               <Redirect to="/home" />
           </Switch>
           <Footer />            
