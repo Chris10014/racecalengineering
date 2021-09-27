@@ -3,7 +3,7 @@ import { Card, CardHeader, CardText, CardBody, CardTitle, CardImg, CardImgOverla
 // get our fontawesome imports
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import {faFontAwesome} from '@fortawesome/free-brands-svg-icons'
+import { Loading } from "./LoadingComponent";
 
 class SportEventDetail extends Component {
   constructor(props) {
@@ -66,7 +66,23 @@ class SportEventDetail extends Component {
   }
 
   render() {
-    if (this.props.sportEvent != null) {
+    if(this.props.isLoading) {
+      return (
+        <div className="container">
+          <div className="row">
+            <Loading />
+          </div>
+        </div>
+      );
+    } else if (this.props.errMess) {
+      return (
+        <div className="container">
+          <div className="row">
+            <h4>{this.props.errMess}</h4>
+          </div>
+        </div>
+      );
+    } else if (this.props.sportEvent != null) {
       const competitions = this.props.sportEvent.races.map((race) => {
         return (
           <div key={race.id} className="col-12 col-md-6 mt-3">

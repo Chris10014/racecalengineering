@@ -9,6 +9,7 @@ import Home from './HomeComponent';
 // import { SPORTS } from "../shared/sports";
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from "react-redux";
+import { fetchSportEvents } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
   return {
@@ -17,6 +18,12 @@ const mapStateToProps = state => {
     sports: state.sports
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+
+fetchSportEvents: () => { dispatch(fetchSportEvents()) }
+
+});
 
 class Main extends Component {
     constructor(probs) {
@@ -27,6 +34,10 @@ class Main extends Component {
             // sports: SPORTS,
             selectedSportEvent: null
         };
+    }
+
+    componentDidMount() {
+      this.props.fetchSportEvents();
     }
 
     onSportEventSelect(sportEventId) {
@@ -45,7 +56,10 @@ class Main extends Component {
 
       const SportEventWithId = ({match}) => {
         return(
-          <SportEventDetail sportEvent={this.props.sportEvents.filter((sportEvent) => sportEvent.id === parseInt(match.params.sportEventId))[0]} sports={this.props.sports} />
+          <SportEventDetail sportEvent={this.props.sportEvents.sportEvents.filter((sportEvent) => sportEvent.id === parseInt(match.params.sportEventId))[0]} sports={this.props.sports} 
+          isLoading={this.props.sportEvents.isLoading}
+          errMess={this.props.sportEvents.errMess} 
+          />
         );
       }
         return (
@@ -65,4 +79,4 @@ class Main extends Component {
 }
 
 
-export default connect(mapStateToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

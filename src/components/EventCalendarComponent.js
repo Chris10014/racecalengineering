@@ -5,6 +5,7 @@ import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Breadcrum
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import InputField from "./InputFieldComponent";
+import { Loading } from "./LoadingComponent";
 
 
 class EventCalendar extends Component {
@@ -99,7 +100,7 @@ class EventCalendar extends Component {
     })
 
     // eslint-disable-next-line array-callback-return
-    const eventCalendar = this.props.sportEvents
+    const eventCalendar = this.props.sportEvents.sportEvents
       // eslint-disable-next-line array-callback-return
       .filter((sportEvent) => { //Country filter
         if (this.state.countrySearchTerm === "") { //If no search term for country exists
@@ -223,94 +224,103 @@ class EventCalendar extends Component {
         );
       });
 
-    return (
-      <div className="container">
-        <div className="row">
-          <Breadcrumb>
-            <BreadcrumbItem>
-              <Link to="/home">Home</Link>
-            </BreadcrumbItem>
-            <BreadcrumbItem active>Veranstaltungen</BreadcrumbItem>
-          </Breadcrumb>
-          <h1>Veranstaltungskalender</h1>
-          <hr />
-          <div className="row">
-            <div className="col-12 col-md-5">
-              <InputField
-                id="eventSearch"
-                type="search"
-                label="Veranstaltung"
-                placeholder="Name, PLZ oder Ort ..."
-                text="Name, Postleitzahl oder Ort eingeben."
-                icon="search"
-                value={this.state.eventSearchTerm}
-                onChange={(event) => {
-                  this.handleOnChangeEventSearch(event.target.value);
-                }}
-              />
-            </div>
-            <div className="col-12 col-md-3">
-              <InputField
-                id="dateSearch"
-                type="date"
-                label="Datum"
-                placeholder="Suche Vernstaltungen ab Datum ..."
-                text="Startdatum eingeben."
-                icon="calendar-alt"
-                value={this.state.dateSearchTerm}
-                onChange={(event) => {
-                  this.handleOnChangeDateSearch(event.target.value);
-                }}
-              />
-            </div>
-            <div className="col-12 col-md-4">  
-              <InputField
-                id="countrySearch"
-                type="text"
-                list="countriesDe"
-                label="Land"
-                placeholder="Land ..."
-                text="Ländername eingeben."
-                icon="flag"
-                value={this.state.countrySearchTerm}
-                autocomplete="off"
-                onChange={(event) => {
-                  this.handleOnChangeCountrySearch(event.target.value);
-                }}
-              />
-              {/* datalist for country search input field */}
-              <datalist id="countriesDe">
-                {this.props.countries.filter((country) => {
-                  if(this.state.countrySearchTerm === null) {
-                    //do nothing
-                  } else if
-                  ((country.countryNameDe ? country.countryNameDe.toLowerCase().startsWith(this.state.countrySearchTerm) : "" || 
-                country.countryNameEn.toLowerCase().startsWith(this.state.countrySearchTerm))) {
-                  return country
-                }
-              }).map((country) => {
-                  return (
-                   country.countryNameDe ?
-                    <option value={country.countryNameDe}></option> :
-                    <option value={country.countryNameEn}></option>
-                  );                  
-                })}               
-              </datalist>
+        return (
+          <div className="container">
+            <div className="row">
+              <Breadcrumb>
+                <BreadcrumbItem>
+                  <Link to="/home">Home</Link>
+                </BreadcrumbItem>
+                <BreadcrumbItem active>Veranstaltungen</BreadcrumbItem>
+              </Breadcrumb>
+              <h1>Veranstaltungskalender</h1>
+              <hr />
+              <div className="row">
+                <div className="col-12 col-md-5">
+                  <InputField
+                    id="eventSearch"
+                    type="search"
+                    label="Veranstaltung"
+                    placeholder="Name, PLZ oder Ort ..."
+                    text="Name, Postleitzahl oder Ort eingeben."
+                    icon="search"
+                    value={this.state.eventSearchTerm}
+                    onChange={(event) => {
+                      this.handleOnChangeEventSearch(event.target.value);
+                    }}
+                  />
+                </div>
+                <div className="col-12 col-md-3">
+                  <InputField
+                    id="dateSearch"
+                    type="date"
+                    label="Datum"
+                    placeholder="Suche Vernstaltungen ab Datum ..."
+                    text="Startdatum eingeben."
+                    icon="calendar-alt"
+                    value={this.state.dateSearchTerm}
+                    onChange={(event) => {
+                      this.handleOnChangeDateSearch(event.target.value);
+                    }}
+                  />
+                </div>
+                <div className="col-12 col-md-4">
+                  <InputField
+                    id="countrySearch"
+                    type="text"
+                    list="countriesDe"
+                    label="Land"
+                    placeholder="Land ..."
+                    text="Ländername eingeben."
+                    icon="flag"
+                    value={this.state.countrySearchTerm}
+                    autocomplete="off"
+                    onChange={(event) => {
+                      this.handleOnChangeCountrySearch(event.target.value);
+                    }}
+                  />
+                  {/* datalist for country search input field */}
+                  <datalist id="countriesDe">
+                    {this.props.countries
+                      .filter((country) => {
+                        if (this.state.countrySearchTerm === null) {
+                          //do nothing
+                        } else if (
+                          country.countryNameDe
+                            ? country.countryNameDe
+                                .toLowerCase()
+                                .startsWith(this.state.countrySearchTerm)
+                            : "" ||
+                              country.countryNameEn
+                                .toLowerCase()
+                                .startsWith(this.state.countrySearchTerm)
+                        ) {
+                          return country;
+                        }
+                      })
+                      .map((country) => {
+                        return country.countryNameDe ? (
+                          <option value={country.countryNameDe}></option>
+                        ) : (
+                          <option value={country.countryNameEn}></option>
+                        );
+                      })}
+                  </datalist>
+                </div>
+              </div>
+              <div className="row row-cols-1 row-cols-md-3 g-4">
+                {eventCalendar.length !== 0 ? (
+                  eventCalendar
+                ) : (
+                  <p>
+                    Die Suche ergab leider kein Ergebnis.{" "}
+                    <FontAwesomeIcon icon="sad-tear" size="lg" />
+                  </p>
+                )}
+              </div>
             </div>
           </div>
-          <div className="row row-cols-1 row-cols-md-3 g-4">
-            {eventCalendar.length !== 0 ? (
-              eventCalendar
-            ) : (
-              <p>
-                Die Suche ergab leider kein Ergebnis.{" "}
-                <FontAwesomeIcon icon="sad-tear" size="lg" />
-              </p>
-            )}
-          </div>
-        </div>
-      </div>
-    );
+        );
   }
 }
 
