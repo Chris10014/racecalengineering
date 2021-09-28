@@ -69,8 +69,8 @@ class SportEventDetail extends Component {
     if(this.props.isLoading) {
       return (
         <div className="container">
-          <div className="row">
-            <Loading />
+          <div className="row text-center">
+            <Loading text="Wettkämpfe werden geladen ..." />
           </div>
         </div>
       );

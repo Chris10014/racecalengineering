@@ -84,6 +84,7 @@ class EventCalendar extends Component {
       );
     }
   }
+  
  
   render() {
 
@@ -223,7 +224,6 @@ class EventCalendar extends Component {
           </div> /** /key=sportEvent.id */
         );
       });
-
         return (
           <div className="container">
             <div className="row">
@@ -307,16 +307,34 @@ class EventCalendar extends Component {
                       })}
                   </datalist>
                 </div>
-              </div>
+              </div>              
               <div className="row row-cols-1 row-cols-md-3 g-4">
-                {eventCalendar.length !== 0 ? (
-                  eventCalendar
-                ) : (
-                  <p>
-                    Die Suche ergab leider kein Ergebnis.{" "}
-                    <FontAwesomeIcon icon="sad-tear" size="lg" />
-                  </p>
-                )}
+                {(this.props.sportEvents.isLoading) ?
+                  <div className="container">
+                    <div className="row text-center">
+                      <Loading text="Veranstaltungen werden gesucht ..." />
+                    </div>
+                  </div>
+                  :
+                  this.props.sportEvents.errMess ?
+                    <div className="container">
+                      <div className="row">
+                        <h4>this.props.sportEvents.errMess</h4>
+                      </div>
+                    </div>
+                    :
+                    eventCalendar.length !== 0 ? (
+                      eventCalendar
+                    ) : (
+                      <div className="container">
+                        <div className="row co-12 text-center">
+                          <h6>
+                            Die Suche ergab leider kein Ergebnis.
+                            <FontAwesomeIcon icon="sad-tear" color="#bbb" size="lg" />
+                          </h6>
+                        </div>
+                      </div>
+                    )}
               </div>
             </div>
           </div>
