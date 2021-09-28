@@ -4,43 +4,12 @@ import { Card, CardHeader, CardText, CardBody, CardTitle, CardImg, CardImgOverla
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import { Loading } from "./LoadingComponent";
+import { Glyphicon } from './GlyphiconComponent';
 
 class SportEventDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-  }
-
-
-  /**
-   * Translates the sportCode into the corresponding FontAwesome glyphicon name
-   * @param {sport} param string
-   * @returns {glyphicon name} string name of the FontAwseome glyphicon
-   */
-  renderGlyph(param) {
-    switch (param) {
-      case "swim":
-        return "swimmer";
-      case "bike":
-        return "biking";
-      case "ctf":
-        return "biking";
-      case "rtf":
-        return "biking";
-      case "rb":
-        return "biking";
-      case "mtb":
-        return "biking";
-      case "run":
-        return "running";
-      case "walk":
-        return "walking";
-      case "dot":
-        return "circle";
-
-      default:
-        return "question";
-    }
   }
 
   /**
@@ -65,27 +34,9 @@ class SportEventDetail extends Component {
     }
   }
 
-  render() {
-    if(this.props.isLoading) {
-      return (
-        <div className="container">
-          <div className="row text-center">
-            <Loading text="Wettkämpfe werden geladen ..." />
-          </div>
-        </div>
-      );
-    } else if (this.props.errMess) {
-      return (
-        <div className="container">
-          <div className="row">
-            <h4>{this.props.errMess}</h4>
-          </div>
-        </div>
-      );
-    } else if (this.props.sportEvent != null) {
-      const competitions = this.props.sportEvent.races.map((race) => {
-        return (
-          <div key={race.id} className="col-12 col-md-6 mt-3">
+  renderRaceCard (race) {
+    return (
+      <div key={race.id} className="col-12 col-md-6 mt-3">
             <Card className="h-100 text-white bg-dark">
               <CardBody>
                 <CardImg
@@ -134,9 +85,9 @@ class SportEventDetail extends Component {
                   {race.courses.map((course, index) => {
                     return (
                       <span>
-                        <FontAwesomeIcon
-                          icon={this.renderGlyph(course.course.toLowerCase())}
-                          size="lg"                         
+                        <Glyphicon
+                          param={course.course.toLowerCase()}
+                          size="lg"
                         />
                         &nbsp;{course.distance} km{" "}
                         {/* Glyph for course and distance */}
@@ -144,12 +95,13 @@ class SportEventDetail extends Component {
                           <code className="text-white text-muted">
                             &nbsp;
                             <FontAwesomeIcon
-                              icon={this.renderGlyph("dot")}
+                              icon="circle"
                               size="xs"
                             />
                             &nbsp;
                           </code>
-                        ) : null}{/* Muted dot as separator between course data */}
+                        ) : null}
+                        {/* Muted dot as separator between course data */}
                       </span>
                     );
                   })}
@@ -157,6 +109,31 @@ class SportEventDetail extends Component {
               </CardBody>
             </Card>
           </div> /** /key=sportEvent.id */
+    );
+
+  }
+
+  render() {
+    if(this.props.isLoading) {
+      return (
+        <div className="container">
+          <div className="row text-center">
+            <Loading text="Wettkämpfe werden geladen ..." />
+          </div>
+        </div>
+      );
+    } else if (this.props.errMess) {
+      return (
+        <div className="container">
+          <div className="row">
+            <h4>{this.props.errMess}</h4>
+          </div>
+        </div>
+      );
+    } else if (this.props.sportEvent != null) {
+      const competitions = this.props.sportEvent.races.map((race) => {
+        return (
+          this.renderRaceCard(race)
         );
       });
 

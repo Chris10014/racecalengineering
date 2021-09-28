@@ -84,10 +84,95 @@ class EventCalendar extends Component {
       );
     }
   }
+
+  /**
+   * Renders the card view for a sport event
+   * @param {sportEvent} object sportEvent 
+   * @returns card view of an event
+   */
+  renderEventCard(sportEvent) {
+    return (
+      <div key={sportEvent.id} className="col-12 col-md-6 col-lg-4">
+        <Card className="h-100 text-white bg-dark">
+          <CardBody>
+            <Link
+              className="text-decoration-none text-white"
+              to={`/eventcalendar/${sportEvent.id}`}
+            >
+              {/*link to the sportEvent details */}
+              <CardImg
+                className="card-img-over mb-3"
+                src={
+                  "/assets/images/event-visuals/" +
+                  this.renderEventVisual(sportEvent)
+                }
+                alt=""
+              />
+              <CardImgOverlay>
+                <CardTitle>
+                  <div className="bg-dark-transparent">
+                    <h6 className="">
+                      <div className="row">
+                        <span className="col-10">
+                          {sportEvent.start
+                            ? sportEvent.start
+                            : "nicht terminiert"}
+                          {sportEvent.end && sportEvent.start ? (
+                            <span> - {sportEvent.end}</span>
+                          ) : null}{" "}
+                          {/*renders sportEvent.end only if itself and sportEvent.start exist and != null */}
+                        </span>
+                        <span className="col-2">
+                          <img
+                            className="img-fluid"
+                            src={
+                              "assets/images/country-flags/svg/" +
+                              sportEvent.countryCode.toLowerCase() +
+                              ".svg"
+                            }
+                            alt={sportEvent.countryCode}
+                            align="absmiddle"
+                          />
+                        </span>
+                      </div>
+                      {/* / .row */}
+                    </h6>
+                    <h4 className="">{sportEvent.name}</h4>
+                  </div>
+                  {/* /.bg-dark-transparent */}
+                </CardTitle>
+              </CardImgOverlay>
+              <CardText>
+                <h6 className="mt-2 text-muted">{sportEvent.host}</h6>
+                <p className="text-muted">
+                  <small>
+                    in {sportEvent.postalCode} {sportEvent.city}
+                  </small>
+                </p>
+                <hr />
+                <ul className="list-unstyled">
+                  {sportEvent.races.map((race) => {
+                    return <li>{race.name}</li>;
+                  })}
+                </ul>
+              </CardText>
+            </Link>
+            <a
+              className="mt-auto card-link text-decoration-none"
+              href={sportEvent.homepage}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <FontAwesomeIcon icon="globe" /> Homepage
+            </a>
+          </CardBody>
+        </Card>
+      </div> /** /key=sportEvent.id */
+    );
+  }
   
  
   render() {
-
     /**
      * Find the country code of the fist country in the countries object which matches the countrySearchTerm
      * @input object countries as object 
@@ -144,85 +229,10 @@ class EventCalendar extends Component {
         ) {
           return sportEvent;
         }
-      }).map((sportEvent) => {
+      }).map((sportEvent) => { //Maps through the filtered sportEvents object
         return (
-          <div key={sportEvent.id} className="col-12 col-md-6 col-lg-4">
-            <Card className="h-100 text-white bg-dark">
-              <CardBody>
-                <Link
-                  className="text-decoration-none text-white"
-                  to={`/eventcalendar/${sportEvent.id}`}
-                >
-                  {/*link to the sportEvent details */}
-                  <CardImg
-                    className="card-img-over mb-3"
-                    src={
-                      "/assets/images/event-visuals/" +
-                      this.renderEventVisual(sportEvent)
-                    }
-                    alt=""
-                  />
-                  <CardImgOverlay>
-                    <CardTitle>
-                      <div className="bg-dark-transparent">
-                        <h6 className="">
-                          <div className="row">
-                            <span className="col-10">
-                              {sportEvent.start
-                                ? sportEvent.start
-                                : "nicht terminiert"}
-                              {sportEvent.end && sportEvent.start ? (
-                                <span> - {sportEvent.end}</span>
-                              ) : null}{" "}
-                              {/*renders sportEvent.end only if itself and sportEvent.start exist and != null */}
-                            </span>
-                            <span className="col-2">
-                              <img
-                                className="img-fluid"
-                                src={
-                                  "assets/images/country-flags/svg/" +
-                                  sportEvent.countryCode.toLowerCase() +
-                                  ".svg"
-                                }
-                                alt={sportEvent.countryCode}
-                                align="absmiddle"
-                              />
-                            </span>
-                          </div>
-                          {/* / .row */}
-                        </h6>
-                        <h4 className="">{sportEvent.name}</h4>
-                      </div>
-                      {/* /.bg-dark-transparent */}
-                    </CardTitle>
-                  </CardImgOverlay>
-                  <CardText>
-                    <h6 className="mt-2 text-muted">{sportEvent.host}</h6>
-                    <p className="text-muted">
-                      <small>
-                        in {sportEvent.postalCode} {sportEvent.city}
-                      </small>
-                    </p>
-                    <hr />
-                    <ul className="list-unstyled">
-                      {sportEvent.races.map((race) => {
-                        return <li>{race.name}</li>;
-                      })}
-                    </ul>
-                  </CardText>
-                </Link>
-                <a
-                  className="mt-auto card-link text-decoration-none"
-                  href={sportEvent.homepage}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <FontAwesomeIcon icon="globe" /> Homepage
-                </a>
-              </CardBody>
-            </Card>
-          </div> /** /key=sportEvent.id */
-        );
+          this.renderEventCard(sportEvent)
+        );        
       });
         return (
           <div className="container">
