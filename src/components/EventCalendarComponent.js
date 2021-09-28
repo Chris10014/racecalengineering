@@ -319,7 +319,7 @@ class EventCalendar extends Component {
                 </div>
               </div>              
               <div className="row row-cols-1 row-cols-md-3 g-4">
-                {(this.props.sportEvents.isLoading) ?
+                {this.props.sportEvents.isLoading ?
                   <div className="container">
                     <div className="row text-center">
                       <Loading text="Veranstaltungen werden gesucht ..." />
