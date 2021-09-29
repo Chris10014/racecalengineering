@@ -3,11 +3,11 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
  /**
-   * Translates the abbreviation of sports into the corresponding FontAwesome glyphicon.
+   * Translates the abbreviation of sports or other strings into the corresponding FontAwesome glyphicon.
    * Needed in loops and filter() functions when the glyphicon is created dynamically.
-   * @param {props.param} param string for glyphicon
-   * @param {props.size} size of the glyphicon optional
-   * @returns the glyphicon
+   * @param {param=str} param string for glyphicon
+   * @param {size=str} size of the glyphicon (lg, sm, 2x ...), optional
+   * @returns glyphicon
    */
   export const Glyphicon = (props) => {
     switch (props.param) {

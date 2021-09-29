@@ -1,10 +1,9 @@
 /* eslint-disable array-callback-return */
 import React, { Component } from "react";
-import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem } from "reactstrap";
+import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem, Form, FormGroup, Label, Input, InputGroup, Col } from "reactstrap";
 // get our fontawesome imports
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import InputField from "./InputFieldComponent";
 import { Loading } from "./LoadingComponent";
 
 
@@ -21,12 +20,11 @@ class EventCalendar extends Component {
     this.state = {
       eventSearchTerm: "",
       dateSearchTerm: today.split(".").reverse().join("-"), //Converts the today's date (default value) into format yyy-mm-dd to be compatible with html 5
-      countrySearchTerm: ""
+      countrySearchTerm: "",
     };
 
-    this.handleOnChangeEventSearch = this.handleOnChangeEventSearch.bind(this);
-    this.handleOnChangeDateSearch = this.handleOnChangeDateSearch.bind(this);
-    this.handleOnChangeCountrySearch = this.handleOnChangeCountrySearch.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+
   }
 
   componentDidMount() {
@@ -48,19 +46,15 @@ class EventCalendar extends Component {
     }
   }
 
-  handleOnChangeEventSearch(searchTerm) {
-    this.setState({ eventSearchTerm: searchTerm });
-    sessionStorage.setItem("eventSearchTerm", searchTerm);
-  }
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
 
-  handleOnChangeDateSearch(searchTerm) {
-    this.setState({ dateSearchTerm: searchTerm });
-    sessionStorage.setItem("dateSearchTerm", searchTerm);
-  }
-
-  handleOnChangeCountrySearch(searchTerm) {
-    this.setState({ countrySearchTerm: searchTerm });
-    sessionStorage.setItem("countrySearchTerm", searchTerm);
+    this.setState({
+      [name]: value,
+    });
+    sessionStorage.setItem([name], value);
   }
 
   /**
@@ -87,7 +81,7 @@ class EventCalendar extends Component {
 
   /**
    * Renders the card view for a sport event
-   * @param {sportEvent} object sportEvent 
+   * @param {sportEvent} object sportEvent
    * @returns card view of an event
    */
   renderEventCard(sportEvent) {
@@ -170,35 +164,44 @@ class EventCalendar extends Component {
       </div> /** /key=sportEvent.id */
     );
   }
-  
- 
+
   render() {
     /**
      * Find the country code of the fist country in the countries object which matches the countrySearchTerm
-     * @input object countries as object 
-     * 
-     * @returns object first country with the matching search pattern or undefined 
+     * @input object countries as object
+     *
+     * @returns object first country with the matching search pattern or undefined
      */
     const findCountry = this.props.countries.find((country) => {
-      if((country.countryNameDe ? country.countryNameDe : country.countryNameEn).toLowerCase().startsWith(this.state.countrySearchTerm.toLowerCase())) {
-          return country.countryCode; //Be carefull: findCountry can return undefined
+      if (
+        (country.countryNameDe ? country.countryNameDe : country.countryNameEn)
+          .toLowerCase()
+          .startsWith(this.state.countrySearchTerm.toLowerCase())
+      ) {
+        return country.countryCode; //Be carefull: findCountry can return undefined
       }
-    })
+    });
 
     // eslint-disable-next-line array-callback-return
     const eventCalendar = this.props.sportEvents.sportEvents
       // eslint-disable-next-line array-callback-return
-      .filter((sportEvent) => { //Country filter
-        if (this.state.countrySearchTerm === "") { //If no search term for country exists
+      .filter((sportEvent) => {
+        //Country filter
+        if (this.state.countrySearchTerm === "") {
+          //If no search term for country exists
           return sportEvent;
-        } else if (sportEvent.countryCode === (typeof findCountry !== "undefined" ? findCountry.countryCode : ""))
-         {
+        } else if (
+          sportEvent.countryCode ===
+          (typeof findCountry !== "undefined" ? findCountry.countryCode : "")
+        ) {
           return sportEvent;
         }
-      // eslint-disable-next-line array-callback-return
-      }).filter((sportEvent) => { //Date filter
-        if(this.state.dateSearchTerm === "") {
-          return sportEvent
+        // eslint-disable-next-line array-callback-return
+      })
+      .filter((sportEvent) => {
+        //Date filter
+        if (this.state.dateSearchTerm === "") {
+          return sportEvent;
         } else if (
           new Date(sportEvent.start.split(".").reverse().join("-")).getTime() >=
           new Date(
@@ -210,145 +213,169 @@ class EventCalendar extends Component {
       })
       .sort((a, b) => a.start < b.start)
       // eslint-disable-next-line array-callback-return
-      .filter((sportEvent) => { //Event name filter
-        if (
-          this.state.eventSearchTerm === ""
-        ) {
+      .filter((sportEvent) => {
+        //Event name filter
+        if (this.state.eventSearchTerm === "") {
           return sportEvent;
-        } else if (          
+        } else if (
           sportEvent.name
             .toLowerCase()
             .includes(this.state.eventSearchTerm.toLowerCase()) ||
-            sportEvent.postalCode.startsWith(this.state.eventSearchTerm) ||
-            sportEvent.city
-              .toLowerCase()
-              .startsWith(this.state.eventSearchTerm.toLowerCase()) ||
-            sportEvent.races.find((race) =>
-              race.name.toLowerCase().includes(this.state.eventSearchTerm)
-            ) //Searches in the nested array "races" for "race.name"        )
+          sportEvent.postalCode.startsWith(this.state.eventSearchTerm) ||
+          sportEvent.city
+            .toLowerCase()
+            .startsWith(this.state.eventSearchTerm.toLowerCase()) ||
+          sportEvent.races.find((race) =>
+            race.name.toLowerCase().includes(this.state.eventSearchTerm)
+          ) //Searches in the nested array "races" for "race.name"        )
         ) {
           return sportEvent;
         }
-      }).map((sportEvent) => { //Maps through the filtered sportEvents object
-        return (
-          this.renderEventCard(sportEvent)
-        );        
+      })
+      .map((sportEvent) => {
+        //Maps through the filtered sportEvents object
+        return this.renderEventCard(sportEvent);
       });
-        return (
-          <div className="container">
+    return (
+      <div className="container">
+        <div className="row">
+          <Breadcrumb>
+            <BreadcrumbItem>
+              <Link to="/home">Home</Link>
+            </BreadcrumbItem>
+            <BreadcrumbItem active>Veranstaltungen</BreadcrumbItem>
+          </Breadcrumb>
+          <h1>Veranstaltungskalender</h1>
+          <hr />
+          <div className="col-12">
             <div className="row">
-              <Breadcrumb>
-                <BreadcrumbItem>
-                  <Link to="/home">Home</Link>
-                </BreadcrumbItem>
-                <BreadcrumbItem active>Veranstaltungen</BreadcrumbItem>
-              </Breadcrumb>
-              <h1>Veranstaltungskalender</h1>
-              <hr />
-              <div className="row">
-                <div className="col-12 col-md-5">
-                  <InputField
-                    id="eventSearch"
+              <label className="col-form-label" HTMLfor="eventSearchTerm">
+                Veranstaltung:
+              </label>
+              <div className="col-12 col-md-4">
+                <InputGroup>
+                  <Input
                     type="search"
-                    label="Veranstaltung"
-                    placeholder="Name, PLZ oder Ort ..."
-                    text="Name, Postleitzahl oder Ort eingeben."
-                    icon="search"
+                    id="eventSearchTerm"
+                    name="eventSearchTerm"
+                    placeholder="Name, PLZ, Ort ..."
                     value={this.state.eventSearchTerm}
-                    onChange={(event) => {
-                      this.handleOnChangeEventSearch(event.target.value);
-                    }}
+                    aria-describedby="eventSearchTermHelp"
+                    onChange={this.handleInputChange}
                   />
-                </div>
-                <div className="col-12 col-md-3">
-                  <InputField
-                    id="dateSearch"
-                    type="date"
-                    label="Datum"
-                    placeholder="Suche Vernstaltungen ab Datum ..."
-                    text="Startdatum eingeben."
-                    icon="calendar-alt"
-                    value={this.state.dateSearchTerm}
-                    onChange={(event) => {
-                      this.handleOnChangeDateSearch(event.target.value);
-                    }}
-                  />
-                </div>
-                <div className="col-12 col-md-4">
-                  <InputField
-                    id="countrySearch"
-                    type="text"
-                    list="countriesDe"
-                    label="Land"
-                    placeholder="Land ..."
-                    text="Ländername eingeben."
-                    icon="flag"
-                    value={this.state.countrySearchTerm}
-                    autocomplete="off"
-                    onChange={(event) => {
-                      this.handleOnChangeCountrySearch(event.target.value);
-                    }}
-                  />
-                  {/* datalist for country search input field */}
-                  <datalist id="countriesDe">
-                    {this.props.countries
-                      .filter((country) => {
-                        if (this.state.countrySearchTerm === null) {
-                          //do nothing
-                        } else if (
-                          country.countryNameDe
-                            ? country.countryNameDe
-                                .toLowerCase()
-                                .startsWith(this.state.countrySearchTerm)
-                            : "" ||
-                              country.countryNameEn
-                                .toLowerCase()
-                                .startsWith(this.state.countrySearchTerm)
-                        ) {
-                          return country;
-                        }
-                      })
-                      .map((country) => {
-                        return country.countryNameDe ? (
-                          <option value={country.countryNameDe}></option>
-                        ) : (
-                          <option value={country.countryNameEn}></option>
-                        );
-                      })}
-                  </datalist>
-                </div>
-              </div>              
-              <div className="row row-cols-1 row-cols-md-3 g-4">
-                {this.props.sportEvents.isLoading ?
-                  <div className="container">
-                    <div className="row text-center">
-                      <Loading text="Veranstaltungen werden gesucht ..." />
-                    </div>
-                  </div>
-                  :
-                  this.props.sportEvents.errMess ?
-                    <div className="container">
-                      <div className="row">
-                        <h4>this.props.sportEvents.errMess</h4>
-                      </div>
-                    </div>
-                    :
-                    eventCalendar.length !== 0 ? (
-                      eventCalendar
-                    ) : (
-                      <div className="container">
-                        <div className="row co-12 text-center">
-                          <h6>
-                            Die Suche ergab leider kein Ergebnis.
-                            <FontAwesomeIcon icon="sad-tear" color="#bbb" size="lg" />
-                          </h6>
-                        </div>
-                      </div>
-                    )}
+                  <span className="input-group-text">
+                    <FontAwesomeIcon icon="search" />
+                  </span>
+                </InputGroup>
+              </div>
+              <div className="form-text" id="eventSearchTermHelp">
+                Name, Postleitzahl oder Ort eingeben.
+              </div>
+            <label className="col-form-label" htmlFor="dateSearchTerm">
+              Datum:
+            </label>
+            <div className="col-12 col-md-2">
+              <InputGroup>
+                <Input
+                  type="date"
+                  id="dateSearchTerm"
+                  name="dateSearchTerm"
+                  placeholder="TT.MM.JJJJ"
+                  value={this.state.dateSearchTerm}
+                  aria-describedby="dateSearchTermHelp"
+                  onChange={this.handleInputChange}
+                />
+                <span className="input-group-text">
+                  <FontAwesomeIcon icon="calendar-alt" />
+                </span>
+              </InputGroup>
+            </div>
+            <div className="form-text" id="dateSearchTermHelp">
+              Startdatum eingeben.
+            </div>
+
+             <label className="col-form-label" htmlFor="countrySearch">
+              Datum:
+            </label>
+            <div className="col-12 col-md-4">
+              <InputGroup>
+                <Input
+                  type="text"
+                  id="countrySearchTerm"
+                  name="countrySearchTerm"
+                  placeholder="Land ..."
+                  value={this.state.countrySearchTerm}
+                  aria-describedby="countrySearchHelp"
+                  list="countriesDe"
+                  autoComplete="off"
+                  onChange={this.handleInputChange}
+                />
+                <span className="input-group-text">
+                  <FontAwesomeIcon icon="flag" />
+                </span>
+              </InputGroup>
+            </div>
+            <div className="form-text" id="countrySearchHelp">
+              Ländername eingeben.
+            </div>
+            </div>
+          </div> {/* / col-12 */}
+          {/* datalist for country search input field */}
+          <datalist id="countriesDe">
+            {this.props.countries
+              .filter((country) => {
+                if (this.state.countrySearchTerm === null) {
+                  //do nothing
+                } else if (
+                  country.countryNameDe
+                    ? country.countryNameDe
+                        .toLowerCase()
+                        .startsWith(this.state.countrySearchTerm)
+                    : "" ||
+                      country.countryNameEn
+                        .toLowerCase()
+                        .startsWith(this.state.countrySearchTerm)
+                ) {
+                  return country;
+                }
+              })
+              .map((country) => {
+                return country.countryNameDe ? (
+                  <option value={country.countryNameDe}></option>
+                ) : (
+                  <option value={country.countryNameEn}></option>
+                );
+              })}
+          </datalist>
+        </div>
+        <div className="row row-cols-1 row-cols-md-3 g-4 mt-1">
+          {this.props.sportEvents.isLoading ? (
+            <div className="container">
+              <div className="row text-center">
+                <Loading text="Veranstaltungen werden gesucht ..." />
               </div>
             </div>
-          </div>
-        );
+          ) : this.props.sportEvents.errMess ? (
+            <div className="container">
+              <div className="row">
+                <h4>this.props.sportEvents.errMess</h4>
+              </div>
+            </div>
+          ) : eventCalendar.length !== 0 ? (
+            eventCalendar
+          ) : (
+            <div className="container">
+              <div className="row co-12 text-center">
+                <h6>
+                  Die Suche ergab leider kein Ergebnis.
+                  <FontAwesomeIcon icon="sad-tear" color="#bbb" size="lg" />
+                </h6>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
   }
 }
 
