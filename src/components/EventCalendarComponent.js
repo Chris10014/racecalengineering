@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 import React, { Component } from "react";
-import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem, Form, FormGroup, Label, Input, InputGroup, Col } from "reactstrap";
+import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem, Row, Form, FormGroup, Label, Input, InputGroup, Col } from "reactstrap";
 // get our fontawesome imports
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
@@ -91,9 +91,8 @@ class EventCalendar extends Component {
           <CardBody>
             <Link
               className="text-decoration-none text-white"
-              to={`/eventcalendar/${sportEvent.id}`}
+              to={`/eventcalendar/${sportEvent.id}`} /*link to the sportEvent details */
             >
-              {/*link to the sportEvent details */}
               <CardImg
                 className="card-img-over mb-3"
                 src={
@@ -113,8 +112,7 @@ class EventCalendar extends Component {
                             : "nicht terminiert"}
                           {sportEvent.end && sportEvent.start ? (
                             <span> - {sportEvent.end}</span>
-                          ) : null}{" "}
-                          {/*renders sportEvent.end only if itself and sportEvent.start exist and != null */}
+                          ) : null}{/*renders sportEvent.end only if itself and sportEvent.start exist and != null */}
                         </span>
                         <span className="col-2">
                           <img
@@ -132,8 +130,7 @@ class EventCalendar extends Component {
                       {/* / .row */}
                     </h6>
                     <h4 className="">{sportEvent.name}</h4>
-                  </div>
-                  {/* /.bg-dark-transparent */}
+                  </div>{/* /.bg-dark-transparent */}
                 </CardTitle>
               </CardImgOverlay>
               <CardText>
@@ -247,34 +244,35 @@ class EventCalendar extends Component {
           </Breadcrumb>
           <h1>Veranstaltungskalender</h1>
           <hr />
-          <div className="col-12">
-            <div className="row">
+          {/* input fields for event search and event filter */}
+          <Row>
+            <Col md={5}>
               <label className="col-form-label" HTMLfor="eventSearchTerm">
                 Veranstaltung:
               </label>
-              <div className="col-12 col-md-4">
-                <InputGroup>
-                  <Input
-                    type="search"
-                    id="eventSearchTerm"
-                    name="eventSearchTerm"
-                    placeholder="Name, PLZ, Ort ..."
-                    value={this.state.eventSearchTerm}
-                    aria-describedby="eventSearchTermHelp"
-                    onChange={this.handleInputChange}
-                  />
-                  <span className="input-group-text">
-                    <FontAwesomeIcon icon="search" />
-                  </span>
-                </InputGroup>
-              </div>
+              <InputGroup>
+                <Input
+                  type="search"
+                  id="eventSearchTerm"
+                  name="eventSearchTerm"
+                  placeholder="Name, PLZ, Ort ..."
+                  value={this.state.eventSearchTerm}
+                  aria-describedby="eventSearchTermHelp"
+                  onChange={this.handleInputChange}
+                />
+                <span className="input-group-text">
+                  <FontAwesomeIcon icon="search" />
+                </span>
+              </InputGroup>
               <div className="form-text" id="eventSearchTermHelp">
                 Name, Postleitzahl oder Ort eingeben.
               </div>
-            <label className="col-form-label" htmlFor="dateSearchTerm">
-              Datum:
-            </label>
-            <div className="col-12 col-md-2">
+            </Col>{/* / md-5 */}
+
+            <Col md={3}>
+              <label className="col-form-label" htmlFor="dateSearchTerm">
+                Datum:
+              </label>
               <InputGroup>
                 <Input
                   type="date"
@@ -289,15 +287,15 @@ class EventCalendar extends Component {
                   <FontAwesomeIcon icon="calendar-alt" />
                 </span>
               </InputGroup>
-            </div>
-            <div className="form-text" id="dateSearchTermHelp">
-              Startdatum eingeben.
-            </div>
+              <div className="form-text" id="dateSearchTermHelp">
+                Startdatum eingeben.
+              </div>
+            </Col>{/* / md-3 */}
 
-             <label className="col-form-label" htmlFor="countrySearch">
-              Datum:
-            </label>
-            <div className="col-12 col-md-4">
+            <Col md={4}>
+              <label className="col-form-label" htmlFor="countrySearchTerm">
+                Datum:
+              </label>
               <InputGroup>
                 <Input
                   type="text"
@@ -314,12 +312,11 @@ class EventCalendar extends Component {
                   <FontAwesomeIcon icon="flag" />
                 </span>
               </InputGroup>
-            </div>
-            <div className="form-text" id="countrySearchHelp">
-              Ländername eingeben.
-            </div>
-            </div>
-          </div> {/* / col-12 */}
+              <div className="form-text" id="countrySearchHelp">
+                Ländername eingeben.
+              </div>
+            </Col>{/* / md-4 */}
+          </Row>
           {/* datalist for country search input field */}
           <datalist id="countriesDe">
             {this.props.countries
@@ -367,7 +364,7 @@ class EventCalendar extends Component {
             <div className="container">
               <div className="row co-12 text-center">
                 <h6>
-                  Die Suche ergab leider kein Ergebnis.
+                  Die Suche ergab leider kein Ergebnis.&nbsp;&nbsp;
                   <FontAwesomeIcon icon="sad-tear" color="#bbb" size="lg" />
                 </h6>
               </div>
