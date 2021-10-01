@@ -1,6 +1,6 @@
 /* eslint-disable array-callback-return */
 import React, { Component } from "react";
-import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem, Row, Form, FormGroup, Label, Input, InputGroup, Col } from "reactstrap";
+import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem, Row, Label, Input, InputGroup, Col } from "reactstrap";
 // get our fontawesome imports
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
@@ -247,9 +247,9 @@ class EventCalendar extends Component {
           {/* input fields for event search and event filter */}
           <Row>
             <Col md={5}>
-              <label className="col-form-label" HTMLfor="eventSearchTerm">
+              <Label htmlFor="eventSearchTerm">
                 Veranstaltung:
-              </label>
+              </Label>
               <InputGroup>
                 <Input
                   type="search"
@@ -270,9 +270,9 @@ class EventCalendar extends Component {
             </Col>{/* / md-5 */}
 
             <Col md={3}>
-              <label className="col-form-label" htmlFor="dateSearchTerm">
+              <Label htmlFor="dateSearchTerm">
                 Datum:
-              </label>
+              </Label>
               <InputGroup>
                 <Input
                   type="date"
@@ -293,9 +293,9 @@ class EventCalendar extends Component {
             </Col>{/* / md-3 */}
 
             <Col md={4}>
-              <label className="col-form-label" htmlFor="countrySearchTerm">
-                Datum:
-              </label>
+              <Label htmlFor="countrySearchTerm">
+                Land:
+              </Label>
               <InputGroup>
                 <Input
                   type="text"
