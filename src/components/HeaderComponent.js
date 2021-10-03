@@ -32,7 +32,7 @@ class Header extends Component {
                             </NavItem>
                             <NavItem>
                                 <NavLink className="nav-link" to='/eventcalendar'> Veranstaltungen</NavLink>
-                            </NavItem>                            
+                            </NavItem>                                                         
                             </Nav>
                         </Collapse>
                     </div>

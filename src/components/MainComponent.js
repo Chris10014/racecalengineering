@@ -10,6 +10,7 @@ import Home from './HomeComponent';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from "react-redux";
 import { fetchSportEvents } from '../redux/ActionCreators';
+import CreateSportEvent from './CreateSportEventComponent';
 
 const mapStateToProps = state => {
   return {
@@ -69,6 +70,7 @@ class Main extends Component {
               <Route path='/home' component={HomePage} />
               <Route exact path='/eventcalendar' component={() => <EventCalendar sportEvents={this.props.sportEvents} countries={this.props.countries} onClick={(sportEventId) => this.onSportEventSelect(sportEventId)} />} />
               <Route path='/eventcalendar/:sportEventId' component={SportEventWithId} />
+              <Route path='/createsportevent' component={() => <CreateSportEvent sportEvents={this.props.sportEvents} />} />
               <Redirect to="/home" />
           </Switch>
           <Footer />            

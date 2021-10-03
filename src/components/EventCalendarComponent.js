@@ -229,8 +229,7 @@ class EventCalendar extends Component {
           return sportEvent;
         }
       })
-      .map((sportEvent) => {
-        //Maps through the filtered sportEvents object
+      .map((sportEvent) => {//Maps through the filtered sportEvents object
         return this.renderEventCard(sportEvent);
       });
     return (
@@ -247,9 +246,7 @@ class EventCalendar extends Component {
           {/* input fields for event search and event filter */}
           <Row>
             <Col md={5}>
-              <Label htmlFor="eventSearchTerm">
-                Veranstaltung:
-              </Label>
+              <Label htmlFor="eventSearchTerm">Veranstaltung:</Label>
               <InputGroup>
                 <Input
                   type="search"
@@ -267,12 +264,11 @@ class EventCalendar extends Component {
               <div className="form-text" id="eventSearchTermHelp">
                 Name, Postleitzahl oder Ort eingeben.
               </div>
-            </Col>{/* / md-5 */}
+            </Col>
+            {/* / md-5 */}
 
             <Col md={3}>
-              <Label htmlFor="dateSearchTerm">
-                Datum:
-              </Label>
+              <Label htmlFor="dateSearchTerm">Datum:</Label>
               <InputGroup>
                 <Input
                   type="date"
@@ -290,12 +286,11 @@ class EventCalendar extends Component {
               <div className="form-text" id="dateSearchTermHelp">
                 Startdatum eingeben.
               </div>
-            </Col>{/* / md-3 */}
+            </Col>
+            {/* / md-3 */}
 
             <Col md={4}>
-              <Label htmlFor="countrySearchTerm">
-                Land:
-              </Label>
+              <Label htmlFor="countrySearchTerm">Land:</Label>
               <InputGroup>
                 <Input
                   type="text"
@@ -315,7 +310,8 @@ class EventCalendar extends Component {
               <div className="form-text" id="countrySearchHelp">
                 Ländername eingeben.
               </div>
-            </Col>{/* / md-4 */}
+            </Col>
+            {/* / md-4 */}
           </Row>
           {/* datalist for country search input field */}
           <datalist id="countriesDe">
@@ -345,6 +341,14 @@ class EventCalendar extends Component {
               })}
           </datalist>
         </div>
+        <div className="br-icon text-center">
+          <Link to={`/createsportevent`}>
+            {/*link to the create a sportEvent */}
+            <FontAwesomeIcon icon="plus-circle" size="3x" />
+          </Link>
+          <p className="text-muted">Veranstaltung hinzufügen&nbsp;</p>
+        </div>
+
         <div className="row row-cols-1 row-cols-md-3 g-4 mt-1">
           {this.props.sportEvents.isLoading ? (
             <div className="container">
