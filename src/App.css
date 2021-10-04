@@ -6,8 +6,8 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Lato', sans-serif;
 }
 
-.btn-form {
-  font-family: "Lato, sans-serif";
+button, .btn-form {
+  font-family: "Lato", sans-serif;
 }
 
 h1 {
@@ -15,7 +15,7 @@ h1 {
 }
 
 /* Format inputFields */
-input, label, .form-text {
+input, label, .form-text, .text-danger {
   font-family: 'Lato', sans-serif;
 }
 
