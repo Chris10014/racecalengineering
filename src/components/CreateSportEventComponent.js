@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Breadcrumb, BreadcrumbItem, Label, Form, FormGroup, Input, InputGroup, Col, Row, Button } from "reactstrap";
+import { Breadcrumb, BreadcrumbItem, Label, Col, Row, Button } from "reactstrap";
 import { Link } from "react-router-dom";
 import { LocalForm, Control, Errors } from "react-redux-form";
 
@@ -8,20 +8,16 @@ class CreateSportEvent extends Component {
     super(props);
 
     this.state = {
-      eventName: "",
-      eventHost: "",
-      postalCode: "",
-      city: "",
-      homepage: "",
-      eventStart: "",
-      eventEnd: ""
+      eventName: "" /*Used for <datalist> auto filled by react-redux-form*/
     }
+
+    this.handleSubmit = this.handleSubmit.bind(this);
 
     }
 
     handleSubmit(values) {
       console.log("State is: " + JSON.stringify(values));
-      alert("State is: " + JSON.stringify(values));
+      alert("State is: " + JSON.stringify(values));    
     }
 
     render() {
@@ -45,6 +41,7 @@ class CreateSportEvent extends Component {
                       className="form-control"
                       aria-describedby="eventNameHelp"
                       list="eventNames"
+                      autoComplete="off"
                     />
                   </Col>
                   <Col md={{offset: 2}} className="form-text" id="eventNameHelp">
@@ -136,12 +133,16 @@ class CreateSportEvent extends Component {
                     <Button type="submit" color="primary">
                       Speichern
                     </Button>
+                    &nbsp;&nbsp;
+                    <Button type="reset" color="danger" value="cancel">
+                      Abbrechen
+                    </Button>
                   </Col>
                 </Row>
               </LocalForm>
              
-                  {/* <datalist id="eventNames">
-                    {this.props.sportEvents
+                  <datalist id="eventNames">
+                    {this.props.sportEvents.sportEvents
                       .filter((sportEvent) => {
                         if (this.state.eventName === null) {
                           //do nothing
@@ -160,7 +161,7 @@ class CreateSportEvent extends Component {
                           <option value={sportEvent.name}></option> : ""                     
                         );
                       })}
-                  </datalist> */}
+                  </datalist>
 
                   
             </div>
