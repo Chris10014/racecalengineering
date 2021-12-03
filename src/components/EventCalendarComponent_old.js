@@ -1,25 +1,11 @@
 /* eslint-disable array-callback-return */
 import React, { Component } from "react";
-import {
-  Card,
-  CardImg,
-  CardImgOverlay,
-  CardText,
-  CardBody,
-  CardTitle,
-  Breadcrumb,
-  BreadcrumbItem,
-  Row,
-  Label,
-  Input,
-  InputGroup,
-  Col,
-} from "reactstrap";
+import { Card, CardImg, CardImgOverlay, CardText, CardBody, CardTitle, Breadcrumb, BreadcrumbItem, Row, Label, Input, InputGroup, Col } from "reactstrap";
 // get our fontawesome imports
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import { Loading } from "./LoadingComponent";
-import { baseUrl } from "../shared/baseUrl";
+
 
 class EventCalendar extends Component {
   constructor(props) {
@@ -38,6 +24,7 @@ class EventCalendar extends Component {
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
+
   }
 
   componentDidMount() {
@@ -75,23 +62,20 @@ class EventCalendar extends Component {
    * @param {sportEvent} object sportEvent
    * @returns {file name} string file name of the sportEvent visual
    */
-  renderEventVisual(sportEvent, sports = this.props.sports.sports) {
+  renderEventVisual(sportEvent) {
     const random = (min = 0, max = 50) => {
       let num = Math.random() * (max - min) + min;
 
       return Math.floor(num);
     };
 
-    if (sportEvent.visual !== null && sportEvent.visual.length > 3) {
+    if (sportEvent.visual != null && sportEvent.visual.length > 3) {
       //to be done: check if file exists
       return sportEvent.visual;
-    } else {//doesn't work sustainable. Timing issue?
-      let sporttype = sports.filter(
-        (sport) => sport._id === sportEvent.races[0].race.sport
-      )[0];
-      console.log("bild: ", sporttype.abbr + "_" + random(1, 3) + ".jpg");
-
-      return "assets/images/event-visuals/" + sporttype.abbr + "_" + random(1, 3) + ".jpg";
+    } else {
+      return (
+        sportEvent.races[0].sport.toLowerCase() + "_" + random(1, 3) + ".jpg"
+      );
     }
   }
 
@@ -107,13 +91,13 @@ class EventCalendar extends Component {
           <CardBody>
             <Link
               className="text-decoration-none text-white"
-              to={`/eventcalendar/${sportEvent._id}`} /*link to the sportEvent details */
+              to={`/eventcalendar/${sportEvent.id}`} /*link to the sportEvent details */
             >
               <CardImg
                 className="card-img-over mb-3"
                 src={
-                  // "/assets/images/event-visuals/" +
-                  baseUrl + this.renderEventVisual(sportEvent)
+                  "/assets/images/event-visuals/" +
+                  this.renderEventVisual(sportEvent)
                 }
                 alt=""
               />
@@ -123,55 +107,22 @@ class EventCalendar extends Component {
                     <h6 className="">
                       <div className="row">
                         <span className="col-10">
-                          {}
-                          {sportEvent.dates[sportEvent.dates.length - 1].start
-                            ? new Intl.DateTimeFormat("de-DE", {
-                                year: "numeric",
-                                month: "short",
-                                day: "2-digit",
-                              }).format(
-                                new Date(
-                                  Date.parse(
-                                    sportEvent.dates[
-                                      sportEvent.dates.length - 1
-                                    ].start
-                                  )
-                                )
-                              )
+                          {sportEvent.start
+                            ? sportEvent.start
                             : "nicht terminiert"}
-
-                          {sportEvent.dates[sportEvent.dates.length - 1].end &&
-                          sportEvent.dates[sportEvent.dates.length - 1]
-                            .start ? (
-                            <span>
-                              {" "}
-                              -{" "}
-                              {new Intl.DateTimeFormat("de-DE", {
-                                year: "numeric",
-                                month: "short",
-                                day: "2-digit",
-                              }).format(
-                                new Date(
-                                  Date.parse(
-                                    sportEvent.dates[
-                                      sportEvent.dates.length - 1
-                                    ].end
-                                  )
-                                )
-                              )}
-                            </span>
-                          ) : null}
-                          {/*renders sportEvent.end only if itself and sportEvent.start exist and != null */}
+                          {sportEvent.end && sportEvent.start ? (
+                            <span> - {sportEvent.end}</span>
+                          ) : null}{/*renders sportEvent.end only if itself and sportEvent.start exist and != null */}
                         </span>
                         <span className="col-2">
                           <img
                             className="img-fluid"
                             src={
-                              baseUrl + "assets/images/country-flags/svg/" +
-                              sportEvent.country.countryCode.toLowerCase() +
+                              "assets/images/country-flags/svg/" +
+                              sportEvent.countryCode.toLowerCase() +
                               ".svg"
                             }
-                            alt={sportEvent.country.countryCode}
+                            alt={sportEvent.countryCode}
                             align="absmiddle"
                           />
                         </span>
@@ -179,12 +130,11 @@ class EventCalendar extends Component {
                       {/* / .row */}
                     </h6>
                     <h4 className="">{sportEvent.name}</h4>
-                  </div>
-                  {/* /.bg-dark-transparent */}
+                  </div>{/* /.bg-dark-transparent */}
                 </CardTitle>
               </CardImgOverlay>
               <CardText>
-                <h6 className="mt-2 text-muted">{sportEvent.organiser.name}</h6>
+                <h6 className="mt-2 text-muted">{sportEvent.host}</h6>
                 <p className="text-muted">
                   <small>
                     in {sportEvent.postalCode} {sportEvent.city}
@@ -238,7 +188,7 @@ class EventCalendar extends Component {
           //If no search term for country exists
           return sportEvent;
         } else if (
-          sportEvent.country.countryCode ===
+          sportEvent.countryCode ===
           (typeof findCountry !== "undefined" ? findCountry.countryCode : "")
         ) {
           return sportEvent;
@@ -250,12 +200,7 @@ class EventCalendar extends Component {
         if (this.state.dateSearchTerm === "") {
           return sportEvent;
         } else if (
-          new Date(
-            sportEvent.dates[sportEvent.dates.length - 1].start
-              .split(".")
-              .reverse()
-              .join("-")
-          ).getTime() >=
+          new Date(sportEvent.start.split(".").reverse().join("-")).getTime() >=
           new Date(
             this.state.dateSearchTerm
           ).getTime() /** to handle date = "" */
@@ -284,8 +229,7 @@ class EventCalendar extends Component {
           return sportEvent;
         }
       })
-      .map((sportEvent) => {
-        //Maps through the filtered sportEvents object
+      .map((sportEvent) => {//Maps through the filtered sportEvents object
         return this.renderEventCard(sportEvent);
       });
     return (

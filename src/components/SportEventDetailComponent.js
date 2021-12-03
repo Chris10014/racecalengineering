@@ -29,14 +29,14 @@ class SportEventDetail extends Component {
       return sportEvent.visual;
     } else {
       return (
-        sportEvent.races[0].sport.toLowerCase() + "_" + random(1, 3) + ".jpg"
+        sportEvent.races[0].race.courses[0].sport.abbr.toLowerCase() + "_" + random(1, 3) + ".jpg"
       );
     }
   }
 
   renderRaceCard (race) {
     return (
-      <div key={race.id} className="col-12 col-md-6 mt-3">
+      <div key={race._id} className="col-12 col-md-6 mt-3">
             <Card className="h-100 text-white bg-dark">
               <CardBody>
                 <CardImg
@@ -131,6 +131,8 @@ class SportEventDetail extends Component {
         </div>
       );
     } else if (this.props.sportEvent != null) {
+      console.log("sportEvent!: ", this.props.sportEvent.races[0].race.sport);
+      console.log("Sports from mongo? ", this.props.sports.sports[0].abbr);
       const competitions = this.props.sportEvent.races.map((race) => {
         return (
           this.renderRaceCard(race)
