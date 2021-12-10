@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
    */
   export const Glyphicon = (props) => {
     switch (props.param) {
-      case "swim":
+      case "swi":
         return <FontAwesomeIcon icon="swimmer" size={props.size ? props.size : ""} />;
       case "bike":
         return <FontAwesomeIcon icon="biking" size={props.size ? props.size : ""} />;

@@ -213,54 +213,76 @@ class EventCalendar extends Component {
   }
 
   render() {
+    /**
+     * Find the country code of the fist country in the countries object which matches the countrySearchTerm
+     * @input object countries as object
+     *
+     * @returns object first country with the matching search pattern or undefined
+     */
+    const findCountry = this.props.countries.find((country) => {
+      if (
+        (country.countryNameDe ? country.countryNameDe : country.countryNameEn)
+          .toLowerCase()
+          .startsWith(this.state.countrySearchTerm.toLowerCase())
+      ) {
+        return country.countryCode; //Be carefull: findCountry can return undefined
+      }
+    });
+
+    // eslint-disable-next-line array-callback-return
     const eventCalendar = this.props.sportEvents.sportEvents
+      // eslint-disable-next-line array-callback-return
       .filter((sportEvent) => {
+        //Country filter
         if (this.state.countrySearchTerm === "") {
+          //If no search term for country exists
           return sportEvent;
         } else if (
-          (sportEvent.country.countryNameDe
-            ? sportEvent.country.countryNameDe
-            : sportEvent.country.countryNameEn
-          )
-            .toLowerCase()
-            .startsWith(this.state.countrySearchTerm.toLowerCase())
+          sportEvent.country.countryCode ===
+          (typeof findCountry !== "undefined" ? findCountry.countryCode : "")
         ) {
           return sportEvent;
         }
+        // eslint-disable-next-line array-callback-return
       })
       .filter((sportEvent) => {
+        //Date filter
+        if (this.state.dateSearchTerm === "") {
+          return sportEvent;
+        } else if (                  
+          new Date(sportEvent.dates[sportEvent.dates.length - 1].start).getTime() >=
+          new Date(
+            this.state.dateSearchTerm
+          ).getTime() /** to handle date = "" */
+        ) {         
+          return sportEvent;
+        }
+      })
+      .sort((a, b) => a.start < b.start)
+      // eslint-disable-next-line array-callback-return
+      .filter((sportEvent) => {
+        //Event name filter
         if (this.state.eventSearchTerm === "") {
           return sportEvent;
         } else if (
           sportEvent.name
             .toLowerCase()
             .includes(this.state.eventSearchTerm.toLowerCase()) ||
-          sportEvent.postalCode.toString().startsWith(this.state.eventSearchTerm.toString()) ||
+          sportEvent.postalCode.startsWith(this.state.eventSearchTerm) ||
           sportEvent.city
             .toLowerCase()
-            .startsWith(this.state.eventSearchTerm.toLowerCase()) 
-          )
-         {
-          return sportEvent;
-        }
-      })
-      .filter((sportEvent) => {
-        if (this.state.dateSearchTerm === "") {
-          return sportEvent;
-        } else if (
-          new Date(
-            sportEvent.dates[sportEvent.dates.length - 1].start
-          ).getTime() >= new Date(this.state.dateSearchTerm).getTime()
+            .startsWith(this.state.eventSearchTerm.toLowerCase()) ||
+          sportEvent.races.find((race) =>
+            race.name.toLowerCase().includes(this.state.eventSearchTerm)
+          ) //Searches in the nested array "races" for "race.name"        )
         ) {
           return sportEvent;
         }
       })
-      .sort((a, b) => a.start < b.start)
       .map((sportEvent) => {
+        //Maps through the filtered sportEvents object
         return this.renderEventCard(sportEvent);
-      })
-
-
+      });
     return (
       <div className="container">
         <div className="row">

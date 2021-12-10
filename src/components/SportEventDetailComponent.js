@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import { Loading } from "./LoadingComponent";
 import { Glyphicon } from './GlyphiconComponent';
+import { baseUrl } from "../shared/baseUrl";
 
 class SportEventDetail extends Component {
   constructor(props) {
@@ -14,107 +15,120 @@ class SportEventDetail extends Component {
 
   /**
    * Searches the sportEvent visual. If no visual exists it will be a visual taken corresponding to the sport of the sportEvent.
-   * @param {sportEvent} object sportEvent 
+   * @param {sportEvent} object sportEvent
    * @returns {file name} string file name of the sportEvent visual
    */
-  renderEventVisual(sportEvent) {
+  renderEventVisual(sportEvent, sports = this.props.sports.sports) {
     const random = (min = 0, max = 50) => {
       let num = Math.random() * (max - min) + min;
 
       return Math.floor(num);
     };
 
-    if (sportEvent.visual != null && sportEvent.visual.length > 3) {
+    if (sportEvent.visual != null && this.props.sportEvent.visual.length > 3) {
       //to be done: check if file exists
       return sportEvent.visual;
     } else {
+      //doesn't work sustainable. Timing issue?
+      let sporttype = sports.filter(
+        (sport) => sport._id === sportEvent.races[0].race.sport
+      )[0];
+      console.log("bild: ", sporttype.abbr + "_" + random(1, 3) + ".jpg");
+
       return (
-        sportEvent.races[0].race.courses[0].sport.abbr.toLowerCase() + "_" + random(1, 3) + ".jpg"
+        "assets/images/event-visuals/" +
+        sporttype.abbr +
+        "_" +
+        random(1, 3) +
+        ".jpg"
       );
     }
   }
 
-  renderRaceCard (race) {
+  renderRaceCard(race) {
+    console.log("Race: ", race.race.racedates);
     return (
       <div key={race._id} className="col-12 col-md-6 mt-3">
-            <Card className="h-100 text-white bg-dark">
-              <CardBody>
-                <CardImg
-                  className="card-img-over mb-3"
-                  src={
-                    "/assets/images/event-visuals/" +
-                    this.renderEventVisual(this.props.sportEvent)
-                  }
-                  alt=""
-                />
-                <CardImgOverlay>
-                  <CardTitle>
-                    <div className="bg-dark-transparent">
-                      <h6>
-                        <div className="row">
-                          <span className="col-10">
-                            {this.props.sportEvent.end &&
-                            this.props.sportEvent.start
-                              ? race.start
-                              : null}
-                          </span>
-                        </div>
-                      </h6>
-                      <h2>{race.name}</h2>
-                    </div>
-                  </CardTitle>
-                </CardImgOverlay>
-                <CardText>
-                  <h4 className="inline mt-2">
-                    {
-                      this.props.sports.filter(
-                        (sport) =>
-                          sport.code.toLowerCase() === race.sport.toLowerCase()
-                      )[0].de
-                    }
-                  </h4>
-                  &nbsp;
-                  {race.competition ? (
-                    <p className="inline">&nbsp;&nbsp;
-                      <FontAwesomeIcon icon={"stopwatch"} size="lg" />
-                      {race.virtual ? " virtuell" : null}
-                    </p>
-                  ) : null}{/*Is the event a competition? */}
-                  <hr />
-                  <p>{race.courses.length > 1 ? "Strecken" : "Strecke"}</p>
-                  {race.courses.map((course, index) => {
-                    return (
-                      <span>
-                        <Glyphicon
-                          param={course.course.toLowerCase()}
-                          size="lg"
-                        />
-                        &nbsp;{course.distance} km{" "}
-                        {/* Glyph for course and distance */}
-                        {index < race.courses.length - 1 ? (
-                          <code className="text-white text-muted">
-                            &nbsp;
-                            <FontAwesomeIcon
-                              icon="circle"
-                              size="xs"
-                            />
-                            &nbsp;
-                          </code>
-                        ) : null}
-                        {/* Muted dot as separator between course data */}
+        <Card className="h-100 text-white bg-dark">
+          <CardBody>
+            <CardImg
+              className="card-img-over mb-3"
+              src={baseUrl + this.renderEventVisual(this.props.sportEvent)
+              }
+              alt=""
+            />
+            <CardImgOverlay>
+              <CardTitle>
+                <div className="bg-dark-transparent">
+                  <h6>
+                    <div className="row">
+                      <span className="col-10">
+                        {this.props.sportEvent.dates[this.props.sportEvent.dates.length - 1].start
+                          ? new Intl.DateTimeFormat("de-DE", {
+                    year: "numeric",
+                    month: "short",
+                    day: "2-digit",
+                  }).format(
+                    new Date(
+                      Date.parse(
+                        race.race.racedates[race.race.racedates.length - 1].start
+                      )
+                    )
+                  ) : null}
                       </span>
-                    );
-                  })}
-                </CardText>
-              </CardBody>
-            </Card>
-          </div> /** /key=sportEvent.id */
+                    </div>
+                  </h6>
+                  <h2>{race.race.name}</h2>
+                </div>
+              </CardTitle>
+            </CardImgOverlay>
+            <CardText>
+              <h4 className="inline mt-2">
+                {
+                  this.props.sports.sports.filter(
+                    (sport) =>
+                      sport._id === race.race.sport
+                  )[0].noun_de
+                }
+              </h4>
+              &nbsp;
+              {race.race.competition ? (
+                <p className="inline">
+                  &nbsp;&nbsp;
+                  <FontAwesomeIcon icon={"stopwatch"} size="lg" />
+                  {race.race.virtual ? " virtuell" : null}
+                </p>
+              ) : null}
+              {/*Is the event a competition? */}
+              <hr />
+              <p>{race.race.courses.length > 1 ? "Strecken" : "Strecke"}</p>
+              {race.race.courses.map((course, index) => {
+                console.log("course: ", course.sport.abbr);
+                return (
+                  <span>
+                    <Glyphicon param={course.sport.abbr.toLowerCase()} size="lg" />
+                    &nbsp;{course.distance} km{" "}
+                    {/* Glyph for course and distance */}
+                    {index < race.race.courses.length - 1 ? (
+                      <code className="text-white text-muted">
+                        &nbsp;
+                        <FontAwesomeIcon icon="circle" size="xs" />
+                        &nbsp;
+                      </code>
+                    ) : null}
+                    {/* Muted dot as separator between course data */}
+                  </span>
+                );
+              })}
+            </CardText>
+          </CardBody>
+        </Card>
+      </div> /** /key=sportEvent.id */
     );
-
   }
 
   render() {
-    if(this.props.isLoading) {
+    if (this.props.isLoading) {
       return (
         <div className="container">
           <div className="row text-center">
@@ -131,12 +145,10 @@ class SportEventDetail extends Component {
         </div>
       );
     } else if (this.props.sportEvent != null) {
-      console.log("sportEvent!: ", this.props.sportEvent.races[0].race.sport);
-      console.log("Sports from mongo? ", this.props.sports.sports[0].abbr);
+      console.log("sportEvent!: ", this.props.sportEvent.name);
+      
       const competitions = this.props.sportEvent.races.map((race) => {
-        return (
-          this.renderRaceCard(race)
-        );
+        return this.renderRaceCard(race);
       });
 
       return (
@@ -160,20 +172,56 @@ class SportEventDetail extends Component {
                 </h3>
               </div>
               <div className="col-4">
-                <img className="img-fluid event-logo align-self-end" src={"/assets/images/event-logos/" + this.props.sportEvent.logo } alt="" align="absmiddle" />
+                <img
+                  className="img-fluid event-logo align-self-end"
+                  src={
+                    "/assets/images/event-logos/" + this.props.sportEvent.logo
+                  }
+                  alt=""
+                  align="absmiddle"
+                />
               </div>
             </div>
             <hr />
             <h2>
-              {this.props.sportEvent.start ? (
-                this.props.sportEvent.start
+              {this.props.sportEvent.dates[
+                this.props.sportEvent.dates.length - 1
+              ].start ? (
+                new Intl.DateTimeFormat("de-DE", {
+                  year: "numeric",
+                  month: "short",
+                  day: "2-digit",
+                }).format(
+                  new Date(
+                    Date.parse(
+                      this.props.sportEvent.dates[
+                        this.props.sportEvent.dates.length - 1
+                      ].start
+                    )
+                  )
+                )
               ) : (
                 <span className="text-danger">
                   <strong>nicht terminiert</strong>
                 </span>
               )}
-              {this.props.sportEvent.end && this.props.sportEvent.start ? (
-                <span> - {this.props.sportEvent.end}</span>
+              {this.props.sportEvent.dates[this.props.sportEvent.dates.length - 1].end &&
+              this.props.sportEvent.dates[this.props.sportEvent.dates.length - 1].start ? (
+                <span>
+                  {" "}
+                  -{" "}
+                  {new Intl.DateTimeFormat("de-DE", {
+                    year: "numeric",
+                    month: "short",
+                    day: "2-digit",
+                  }).format(
+                    new Date(
+                      Date.parse(
+                        this.props.sportEvent.dates[this.props.sportEvent.dates.length - 1].end
+                      )
+                    )
+                  )}
+                </span>
               ) : null}
             </h2>
             <div className="row">{competitions}</div>
