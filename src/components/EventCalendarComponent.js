@@ -212,8 +212,9 @@ class EventCalendar extends Component {
     );
   }
 
-  render() {
+  render() {   
     const eventCalendar = this.props.sportEvents.sportEvents
+    .sort((a, b) => a.dates[a.dates.length - 1].start > b.dates[b.dates.length - 1].start)
       .filter((sportEvent) => {
         if (this.state.countrySearchTerm === "") {
           return sportEvent;
@@ -234,11 +235,14 @@ class EventCalendar extends Component {
         } else if (
           sportEvent.name
             .toLowerCase()
-            .includes(this.state.eventSearchTerm.toLowerCase()) ||
+            .startsWith(this.state.eventSearchTerm.toLowerCase()) ||
           sportEvent.postalCode.toString().startsWith(this.state.eventSearchTerm.toString()) ||
           sportEvent.city
             .toLowerCase()
-            .startsWith(this.state.eventSearchTerm.toLowerCase()) 
+            .startsWith(this.state.eventSearchTerm.toLowerCase()) ||
+          sportEvent.races.find((race) => 
+            race.race.name.toLowerCase().startsWith(this.state.eventSearchTerm.toLowerCase())
+          )
           )
          {
           return sportEvent;
@@ -255,7 +259,6 @@ class EventCalendar extends Component {
           return sportEvent;
         }
       })
-      .sort((a, b) => a.start < b.start)
       .map((sportEvent) => {
         return this.renderEventCard(sportEvent);
       })
@@ -352,11 +355,11 @@ class EventCalendar extends Component {
                   country.countryNameDe
                     ? country.countryNameDe
                         .toLowerCase()
-                        .startsWith(this.state.countrySearchTerm)
+                        .startsWith(this.state.countrySearchTerm.toLocaleLowerCase())
                     : "" ||
                       country.countryNameEn
                         .toLowerCase()
-                        .startsWith(this.state.countrySearchTerm)
+                        .startsWith(this.state.countrySearchTerm.toLocaleLowerCase())
                 ) {
                   return country;
                 }
