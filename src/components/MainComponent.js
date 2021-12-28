@@ -12,6 +12,7 @@ import { connect } from "react-redux";
 import {
   fetchSportEvents,
   fetchSports,
+  fetchEventDates,
   loginUser,
   logoutUser,
 } from "../redux/ActionCreators";
@@ -22,6 +23,7 @@ const mapStateToProps = state => {
     sportEvents: state.sportEvents,
     countries: state.countries,
     sports: state.sports,
+    eventDates: state.eventDates,
     auth: state.auth,
   };
 }
@@ -32,6 +34,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   fetchSports: () => {
     dispatch(fetchSports());
+  },
+  fetchEventDates: () => {
+    dispatch(fetchEventDates());
   },
   loginUser: (creds) => dispatch(loginUser(creds)),
   logoutUser: () => dispatch(logoutUser()),
@@ -51,6 +56,7 @@ class Main extends Component {
     componentDidMount() {
       this.props.fetchSportEvents();
       this.props.fetchSports();
+      this.props.fetchEventDates();
     }
 
     onSportEventSelect(sportEventId) {
@@ -67,21 +73,27 @@ class Main extends Component {
         );
       }
 
-      const SportEventWithId = ({match}) => {
-        return(
-          <SportEventDetail sportEvent={this.props.sportEvents.sportEvents.filter((sportEvent) => sportEvent._id === (match.params.sportEventId))[0]} sports={this.props.sports} 
-          isLoading={this.props.sportEvents.isLoading}
-          errMess={this.props.sportEvents.errMess} 
+      const EventDateWithId = ({ match }) => {
+        return (
+          <SportEventDetail
+            eventDate={
+              this.props.eventDates.eventDates.filter(
+                (eventDate) => eventDate._id === match.params.eventDateId
+              )[0]
+            }
+            sports={this.props.sports}
+            isLoading={this.props.eventDates.isLoading}
+            errMess={this.props.eventDates.errMess}
           />
         );
-      }
+      };
         return (
           <div>      
             <Header />
             <Switch>
               <Route path='/home' component={HomePage} />
-              <Route exact path='/eventcalendar' component={() => <EventCalendar sportEvents={this.props.sportEvents} sports={this.props.sports} countries={this.props.countries} onClick={(sportEventId) => this.onSportEventSelect(sportEventId)} />} />
-              <Route path='/eventcalendar/:sportEventId' component={SportEventWithId} />
+              <Route exact path='/eventcalendar' component={() => <EventCalendar eventDates={this.props.eventDates} sportEvents={this.props.sportEvents} sports={this.props.sports} countries={this.props.countries} onClick={(sportEventId) => this.onSportEventSelect(sportEventId)} />} />
+              <Route path='/eventcalendar/:eventDateId' component={EventDateWithId} />
               <Route path='/createsportevent' component={() => <CreateSportEvent sportEvents={this.props.sportEvents} />} />
               <Redirect to="/home" />
           </Switch>

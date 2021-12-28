@@ -10,7 +10,7 @@ export const Sports = (state = {
       return {...state, isLoading: true, errMess: null, sports: []}
 
     case ActionTypes.SPORTS_FAILED:
-      return {...state, isLoading: false, errMess: action.payload, Sports: []}
+      return {...state, isLoading: false, errMess: action.payload, sports: []}
 
     case ActionTypes.ADD_SPORTS:
       return {...state, isLoading: false, errMess: null, sports: action.payload}

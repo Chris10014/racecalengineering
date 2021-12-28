@@ -5,6 +5,7 @@ import logger from "redux-logger";
 import { SportEvents } from "./sportEvents";
 import { Countries } from "./countries";
 import { Sports } from "./sports";
+import { EventDates } from "./eventDates";
 
 export const ConfigureStore = () => {
     const store = createStore(
@@ -12,6 +13,7 @@ export const ConfigureStore = () => {
         sportEvents: SportEvents,
         countries: Countries,
         sports: Sports,
+        eventDates: EventDates
       }),
       composeWithDevTools( applyMiddleware(thunk, logger))
     );

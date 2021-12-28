@@ -268,7 +268,7 @@ class EventCalendar extends Component {
           sportEvent.name
             .toLowerCase()
             .includes(this.state.eventSearchTerm.toLowerCase()) ||
-          sportEvent.postalCode.startsWith(this.state.eventSearchTerm) ||
+          sportEvent.postalCode.toString().startsWith(this.state.eventSearchTerm.toString()) ||
           sportEvent.city
             .toLowerCase()
             .startsWith(this.state.eventSearchTerm.toLowerCase()) ||

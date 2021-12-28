@@ -25,7 +25,7 @@ class SportEventDetail extends Component {
       return Math.floor(num);
     };
 
-    if (sportEvent.visual != null && this.props.sportEvent.visual.length > 3) {
+    if (sportEvent.visual != null && this.props.eventDate.sportEvent.visual.length > 3) {
       //to be done: check if file exists
       return sportEvent.visual;
     } else {
@@ -53,31 +53,14 @@ class SportEventDetail extends Component {
           <CardBody>
             <CardImg
               className="card-img-over mb-3"
-              src={baseUrl + this.renderEventVisual(this.props.sportEvent)
+              src={
+                baseUrl + this.renderEventVisual(this.props.eventDate.sportEvent)
               }
               alt=""
             />
             <CardImgOverlay>
               <CardTitle>
                 <div className="bg-dark-transparent">
-                  <h6>
-                    <div className="row">
-                      <span className="col-10">
-                        {this.props.sportEvent.dates[this.props.sportEvent.dates.length - 1].start
-                          ? new Intl.DateTimeFormat("de-DE", {
-                    year: "numeric",
-                    month: "short",
-                    day: "2-digit",
-                  }).format(
-                    new Date(
-                      Date.parse(
-                        race.race.racedates[race.race.racedates.length - 1].start
-                      )
-                    )
-                  ) : null}
-                      </span>
-                    </div>
-                  </h6>
                   <h2>{race.race.name}</h2>
                 </div>
               </CardTitle>
@@ -86,8 +69,7 @@ class SportEventDetail extends Component {
               <h4 className="inline mt-2">
                 {
                   this.props.sports.sports.filter(
-                    (sport) =>
-                      sport._id === race.race.sport
+                    (sport) => sport._id === race.race.sport
                   )[0].noun_de
                 }
               </h4>
@@ -106,7 +88,10 @@ class SportEventDetail extends Component {
                 console.log("course: ", course.sport.abbr);
                 return (
                   <span>
-                    <Glyphicon param={course.sport.abbr.toLowerCase()} size="lg" />
+                    <Glyphicon
+                      param={course.sport.abbr.toLowerCase()}
+                      size="lg"
+                    />
                     &nbsp;{course.distance} km{" "}
                     {/* Glyph for course and distance */}
                     {index < race.race.courses.length - 1 ? (
@@ -144,10 +129,9 @@ class SportEventDetail extends Component {
           </div>
         </div>
       );
-    } else if (this.props.sportEvent != null) {
-      console.log("sportEvent!: ", this.props.sportEvent.name);
+    } else if (this.props.eventDate != null) {
       
-      const competitions = this.props.sportEvent.races.map((race) => {
+      const competitions = this.props.eventDate.sportEvent.races.map((race) => {
         return this.renderRaceCard(race);
       });
 
@@ -159,23 +143,24 @@ class SportEventDetail extends Component {
                 <Link to="/eventcalendar">Veranstaltungen</Link>
               </BreadcrumbItem>
               <BreadcrumbItem active>
-                {this.props.sportEvent.name}
+                {this.props.eventDate.sportEvent.name}
               </BreadcrumbItem>
             </Breadcrumb>
             <div className="row">
               <div className="col-8">
-                <h1>{this.props.sportEvent.name}</h1>
-                <h3>{this.props.sportEvent.host}</h3>
+                <h1>{this.props.eventDate.sportEvent.name}</h1>
+                <h3>{this.props.eventDate.sportEvent.host}</h3>
                 <h3>
-                  {this.props.sportEvent.postalCode}{" "}
-                  {this.props.sportEvent.city}
+                  {this.props.eventDate.sportEvent.postalCode}{" "}
+                  {this.props.eventDate.sportEvent.city}
                 </h3>
               </div>
               <div className="col-4">
                 <img
                   className="img-fluid event-logo align-self-end"
                   src={
-                    "/assets/images/event-logos/" + this.props.sportEvent.logo
+                    "/assets/images/event-logos/" +
+                    this.props.eventDate.sportEvent.logo
                   }
                   alt=""
                   align="absmiddle"
@@ -184,29 +169,20 @@ class SportEventDetail extends Component {
             </div>
             <hr />
             <h2>
-              {this.props.sportEvent.dates[
-                this.props.sportEvent.dates.length - 1
-              ].start ? (
+              {this.props.eventDate.start ? (
                 new Intl.DateTimeFormat("de-DE", {
                   year: "numeric",
                   month: "short",
                   day: "2-digit",
-                }).format(
-                  new Date(
-                    Date.parse(
-                      this.props.sportEvent.dates[
-                        this.props.sportEvent.dates.length - 1
-                      ].start
-                    )
-                  )
-                )
+                }).format(new Date(Date.parse(this.props.eventDate.start)))
               ) : (
                 <span className="text-danger">
                   <strong>nicht terminiert</strong>
                 </span>
               )}
-              {this.props.sportEvent.dates[this.props.sportEvent.dates.length - 1].end &&
-              this.props.sportEvent.dates[this.props.sportEvent.dates.length - 1].start ? (
+              {this.props.eventDate.end &&
+              this.props.eventDate.start &&
+              this.props.eventDate.end !== this.props.eventDate.start ? (
                 <span>
                   {" "}
                   -{" "}
@@ -214,13 +190,7 @@ class SportEventDetail extends Component {
                     year: "numeric",
                     month: "short",
                     day: "2-digit",
-                  }).format(
-                    new Date(
-                      Date.parse(
-                        this.props.sportEvent.dates[this.props.sportEvent.dates.length - 1].end
-                      )
-                    )
-                  )}
+                  }).format(new Date(Date.parse(this.props.eventDate.end)))}
                 </span>
               ) : null}
             </h2>

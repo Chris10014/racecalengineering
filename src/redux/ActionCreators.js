@@ -2,6 +2,53 @@ import * as ActionTypes from "./ActionTypes";
 import { baseUrl } from "../shared/baseUrl";
 import {faLongArrowAltUp} from '@fortawesome/free-solid-svg-icons'
 
+//dates collection
+export const fetchEventDates = () => (dispatch) => {
+  dispatch(eventDatesLoading(true));
+  console.log("fetch dates 1");
+
+  return fetch(baseUrl + "dates")  
+    .then(      
+      (response) => {
+        console.log("fetch dates 2: ", response);
+        if (response.ok) {
+          return response;
+        } else {
+          var error = new Error(
+            "Error " + response.status + ": " + response.statusText
+          );
+          error.response = response;
+          throw error;
+        }
+      },
+      (error) => {
+        var errmess = new Error(error.message);
+        throw errmess;
+      }
+    )
+    .then((response) => response.json())
+    .then((dates) => dispatch(addEventDates(dates)))
+    .catch((error) => {
+      console.log("fetch eventDates 3", error.message);
+      dispatch(eventDatesFailed(error.message))}
+      );
+};
+
+export const eventDatesLoading = () => ({
+  type: ActionTypes.EVENTDATES_LOADING,
+});
+
+export const eventDatesFailed = (errmess) => ({
+  type: ActionTypes.EVENTDATES_FAILED,
+  payload: errmess,
+});
+
+export const addEventDates = (eventDates) => ({  
+  type: ActionTypes.ADD_EVENTDATES,
+  payload: eventDates,
+});
+
+
 //sportEvent collection
 export const fetchSportEvents = () => (dispatch) => {
   dispatch(sportEventsLoading(true));
